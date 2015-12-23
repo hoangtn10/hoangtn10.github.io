@@ -72,7 +72,7 @@ hr.star-primary:after {
     background-color: #fff;
 }
 hr.star-light:after, hr.star-primary:after {
-    content: "\f005";
+    content: "\f126";
     display: inline-block;
     position: relative;
     top: -.8em;
