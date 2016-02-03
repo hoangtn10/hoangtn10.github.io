@@ -113,6 +113,7 @@ hr.soften {
 }
 
 .img:hover  {
+	text-decoration: underline;
 	animation: imgHoverOn .5s forwards;
 	-ms-animation: imgHoverOn .5s forwards;
 	-webkit-animation: imgHoverOn .5s forwards;
