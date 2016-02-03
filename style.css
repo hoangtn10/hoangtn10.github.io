@@ -110,19 +110,9 @@ hr.soften {
 
 .img {
 	width: 16em;
-	
-	border-radius: 50%;
-    behavior: url(PIE.htc);
-
-    padding: 8px;
-
-    background: #fff;
-    border: 2px solid #666;
-    color: #666;
 }
 
 .img:hover  {
-	border: 2px solid rgb(204,178,163);
 	animation: imgHoverOn .5s forwards;
 	-ms-animation: imgHoverOn .5s forwards;
 	-webkit-animation: imgHoverOn .5s forwards;
