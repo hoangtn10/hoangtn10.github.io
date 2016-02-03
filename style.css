@@ -90,6 +90,10 @@ hr.star-light:after, hr.star-primary:after {
 a:focus {
     outline-width: 0;
 }  
+
+a:hover {
+	text-decoration: none;
+}
  
 hr.soften {
   height: 1px;
