@@ -1,0 +1,102 @@
+@media only screen and (max-device-width: 375px) {
+    body {
+        -ms-transform: scale(.8) translate(-10px,-100px);
+		-webkit-transform: scale(.8) translate(-10px,-100px);
+		transform: scale(.8) translate(-10px,-100px);
+    }
+}
+
+td {
+    text-align: center;
+}
+.cell tr:nth-of-type(3) td {
+    border-bottom: 1px #585757 solid;
+}
+.cell tr:nth-of-type(6) td {
+    border-bottom: 1px #585757 solid;
+}
+.cell tr td:nth-of-type(3) {
+    border-right: 1px #585757 solid;
+}
+.cell tr td:nth-of-type(6) {
+    border-right: 1px #585757 solid;
+}
+input[type="text"] {
+    background: transparent;
+    border: none;
+	color: #A0A0A0;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	font-size: 1.5em;
+    outline: none;
+	
+	margin: 0 auto;
+	font-family: "League-Gothic", Courier;
+	font-weight: bold;
+}
+
+h1 {
+	text-align: center;
+	margin: 0 auto;
+	font-family: "League-Gothic", Courier;
+	color: rgba(0,168,255,0.5);
+	text-shadow: 8px 8px 0 rgba(255,0,180,0.5);
+	font-size: 5em;
+	font-weight: bold;
+}
+
+.btn {
+	text-align: center;
+	margin: 0 auto;
+	font-family: "League-Gothic", Courier;
+	color: rgba(0,168,255,0.5);
+	font-size: 2em;
+	font-weight: bold;
+}
+
+.btn:hover {
+	color: rgba(255,0,180,0.5);
+}
+
+.btn:focus {
+	color: rgba(255,0,180,0.5);
+}
+
+.slidingVertical {
+	animation: topToBottom .5s forwards;
+	-ms-animation: topToBottom .5s forwards;
+	-webkit-animation: topToBottom .5s forwards;
+	overflow: hidden;
+	opacity: 0;
+}
+.delay1 {
+	animation-delay: .1s;
+	-ms-animation-delay: .1s;
+	-webkit-animation-delay: .1s;
+}
+.delay2 {
+	animation-delay: .2s;
+	-ms-animation-delay: .2s;
+	-webkit-animation-delay: .2s;
+}
+.delay3 {
+	animation-delay: .3s;
+	-ms-animation-delay: .3s;
+	-webkit-animation-delay: .3s;
+}
+@-moz-keyframes topToBottom{
+	0% { opacity: 0; }
+	50% { opacity: 0; -webkit-transform: translateY(-25px); }
+	100% { opacity: 1; -webkit-transform: translateY(0px); }
+}
+@-webkit-keyframes topToBottom{
+	0% { opacity: 0; }
+	50% { opacity: 0; -webkit-transform: translateY(-25px); }
+	100% { opacity: 1; -webkit-transform: translateY(0px); }
+}
+@-ms-keyframes topToBottom{
+	0% { opacity: 0; }
+	50% { opacity: 0; -webkit-transform: translateY(-25px); }
+	100% { opacity: 1; -webkit-transform: translateY(0px); }
+}
