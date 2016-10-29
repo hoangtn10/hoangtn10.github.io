@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<head>
+	<title>PoligonWar</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel='shortcut icon' href='PoligonWar.png' type='image/x-icon'/ >
+	<script type="text/javascript" src="https://code.createjs.com/createjs-2015.05.21.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/superhero/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="Style.css">
+	<script src="Script.js"></script>
+</head>
+<body onload="LoadStart()">
+	<div class="panel panel-default" id="divContainer">
+		<div class="panel-heading">
+			<h3 class="panel-title">PolygonWar</h3>
+		</div>
+		
+		<div class="panel-body" id="gameContainer" style="height: 600px;">
+			<canvas id="gameCanvas"></canvas>
+			<canvas id="introCanvas"></canvas>
+			<div id="startOptions" class="btn-group">
+				<button onclick="PlayButtonClick();" type="button" class="btn btn-default"><span id="startOptionsButtons">Play</span></button>
+				<button onclick="OptionsButtonClick();" type="button" class="btn btn-default"><span id="startOptionsButtons">Options</span></button>
+				<button onclick="VSButtonClick();" type="button" class="btn btn-default"><span id="startOptionsButtons">Versus</span></button>
+			</div>
+			
+			<div id="options">
+				<h1 id="spriteID" style="padding:9px;">Player Sprite</h1>
+				<canvas id = "dragAndDrop" width = "350" height = "350" style="border-style: dashed;"></canvas><br>
+				<div class="btn-group">
+					<button onclick="ResetSelection();" type="button" class="btn btn-default">Reset</button>
+					<button onclick="BackSelection();" type="button" class="btn btn-default">Back</button>
+					<button onclick="NextSelection();" type="button" class="btn btn-default">Next</button>
+					<button onclick="DoneSelection();" type="button" class="btn btn-default">Done</button>
+				</div>
+				<br>
+				<div class="btn-group">
+					<button id="SoundToggleButton" onclick="DisableSound();" type="button" class="btn btn-default">Sound</button>
+					<button id="SoundEffectToggleButton" onclick="DisableSoundEffect();" type="button" class="btn btn-default">Effects</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="panel-footer panel-default">
+			<div class="progress" id="xp">
+				<div id="XPprogress" class="progress-bar"></div>
+			</div>
+			<div id="life">
+				<span class="glyphicon glyphicon-heart"></span>
+				<span class="glyphicon glyphicon-heart"></span>
+				<span class="glyphicon glyphicon-heart"></span>
+			</div>
+		</div>
+	</div>
+
+	<div id="score" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Game Over</h4>
+				</div>
+				<div class="modal-body">
+					<input type="text" class="form-control" id="user" placeholder="User">
+				</div>
+				<div class="modal-footer">
+					<span id="points"></span>
+					<button id="saveScoreButton" onclick="saveScore()" type="button" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

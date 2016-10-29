@@ -1,0 +1,49 @@
+div {
+	text-align: center; 
+}
+#divContainer {
+	width:800px; 
+	text-align: center; 
+	margin: 0 auto;
+}
+#gameCanvas {
+	display: none;
+}
+#xp {
+	width:90%;
+	float:left;
+	margin:0;
+}
+#life {
+	float: right;
+}
+#options {
+	display: none;
+	overflow: auto;
+	height: 570px;
+}
+#startOptionsButtons {
+	font-size:1.2em;
+}
+#startOptions {
+	display: none;
+	text-align: center; 
+}
+#points {
+	float: left;
+}
+.glyphicon {
+	color:#df691a ;
+}
+.panel-title {
+	font-weight: bold;
+}
+.panel-footer {
+	overflow: auto;
+}
+.outer {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
