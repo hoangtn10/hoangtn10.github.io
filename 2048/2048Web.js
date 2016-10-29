@@ -19,10 +19,23 @@ var color = [
 	[2048, "#edc22e"],
 ]
 
+var alertOnce = 0;
+
 function load() {
 	getBoard();
 	setColor();
 	document.onkeydown = checkKey;
+}
+
+function newGame() {
+    alertOnce = 0;
+    for (var row = 0; row <= 3; row++) {
+	    for (var col = 0; col <= 3; col++) {
+            board[row][col] = -1;
+	    }
+    }
+    board[0][0] = 2;
+    setBoard();
 }
 
 function setColor() {
@@ -46,37 +59,71 @@ function setColor() {
 }
 
 function checkKey(e) {
+    var change = 0;
     e = e || window.event;
     if (e.keyCode == '38') {
-        up();
+        change = up();
     }
     else if (e.keyCode == '40') {
-        down();
+        change = down();
     }
     else if (e.keyCode == '37') {
-       left();
+        change = left();
     }
     else if (e.keyCode == '39') {
-       right();
+        change = right();
     }
 
     if (e.keyCode == '38' || e.keyCode == '40' || e.keyCode == '37' || e.keyCode == '39') {
-	    setBoard();
-
 	    var freePos = getAvailablePositions();
-		var pos = randomPostion(freePos);
-		var list = document.getElementsByClassName("cell");
-		var index = 4*pos[0] + pos[1]
+	    if (freePos.length != 0) {
+	    	var pos = randomPostion(freePos);
+			var list = document.getElementsByClassName("cell");
+			var index = 4*pos[0] + pos[1]
+			var rand = Math.floor((Math.random() * 2) + 1) * 2;
 
-		list[index].style.opacity = 0;
-		list[index].value = 2;
-		board[pos[0]][pos[1]] = 2;
+	        if (change == 1) {
+	            list[index].style.opacity = 0;
+	    		list[index].value = rand;
+	    		board[pos[0]][pos[1]] = rand;
+	    
+	    		$( list[index] ).animate({
+	    		    opacity: 1,
+	    		}, 500);
+	        }
+	        
+	        setBoard();
+	        checkWon();
+	        checkLost();
+	        setColor();
+	    }
+    }
+}
 
-		setColor();
+function checkWon() {
+    if (alertOnce == 0) {
+        for (var row = 0; row <= 3; row++) {
+		    for (var col = 0; col <= 3; col++) {
+                if (board[row][col] == 2048) {
+                    alertOnce = 1;
+                    alert("You Won!");
+                }
+		    }
+        }
+    }
+}
 
-		$( list[index] ).animate({
-		opacity: 1,
-		}, 500);
+function checkLost() {
+    var change = 0;
+    for (var row = 0; row <= 3; row++) {
+	    for (var col = 0; col <= 3; col++) {
+            if (isLeftAble(row, col) || isRightAble(row, col) || isUpAble(row, col) || isDownAble(row, col)) {
+            	change = 1
+            }
+	    }
+    }
+    if (change == 0) {
+        alert("You Lost!");
     }
 }
 
@@ -118,23 +165,14 @@ function glow(row, col) {
 
 	$(list[index]).css('transform', 'scale(2)')
 	setTimeout(function() { $(list[index]).css('transform', 'scale(1)') }, 250)
-	/*
-	$(list[index]).animate({
-    	scale: '2',
-	}, 500, function() {
-		$(list[index]).animate({
-    		scale: '1	',
-		}, 500)
-	});
-	*/
-	//$(list[index]).toggleClass("glow");
-	//$(list[index]).transition({ 'font-size': '2em' }, 1000);   
 }
 
 function down() {
-	downPhase1();
-	downPhase2();
-	downPhase1();
+	var change = 0;
+	change |= downPhase1();
+	change |= downPhase2();
+	change |= downPhase1();
+    return change;
 }
 
 function downPhase1() {
@@ -151,11 +189,13 @@ function downPhase1() {
 		}
 	}
 	if (change == 1) {
-		setTimeout(downPhase1(), 1000);
+		downPhase1();
 	}
+	return change;
 }
 
 function downPhase2() {
+    var change = 0;
 	for (var row = 2; row >= 0; row--) {
 		for (var col = 0; col <= 3; col++) {
 			if (board[row][col] != -1) {
@@ -168,6 +208,7 @@ function downPhase2() {
 			}
 		}
 	}
+	return change;
 }
 
 function isDownAble(row, col) {
@@ -183,12 +224,14 @@ function isDownAble(row, col) {
 }
 
 function up() {
-	upPhrase1();
-	upPhrase2();
-	upPhrase1();
+    var change = 0;
+	change |= upPhase1();
+	change |= upPhase2();
+	change |= upPhase1();
+	return change;
 }
 
-function upPhrase1() {
+function upPhase1() {
 	var change = 0;
 	for (var row = 1; row <= 3; row++) {
 		for (var col = 0; col <= 3; col++) {
@@ -202,11 +245,13 @@ function upPhrase1() {
 		}
 	}
 	if (change == 1) {
-		upPhrase1();
+		upPhase1();
 	}
+	return change;
 }
 
-function upPhrase2() {
+function upPhase2() {
+    var change = 0;
 	for (var row = 1; row <= 3; row++) {
 		for (var col = 0; col <= 3; col++) {
 			if (board[row][col] != -1) {
@@ -219,6 +264,7 @@ function upPhrase2() {
 			}
 		}
 	}
+	return change;
 }
 
 function isUpAble(row, col) {
@@ -234,9 +280,11 @@ function isUpAble(row, col) {
 }
 
 function left() {
-	leftPhase1();
-	leftPhase2();
-	leftPhase1();
+    var change = 0;
+	change |= leftPhase1();
+	change |= leftPhase2();
+	change |= leftPhase1();
+    return change;
 }
 
 function leftPhase1() {
@@ -255,9 +303,11 @@ function leftPhase1() {
 	if (change == 1) {
 		leftPhase1();
 	}
+	return change;
 }
 
 function leftPhase2() {
+	var change = 0;
 	for (var col = 1; col <= 3; col++) {
 		for (var row = 0; row <= 3; row++) {
 			if (board[row][col] != -1) {
@@ -270,6 +320,7 @@ function leftPhase2() {
 			}
 		}
 	}
+	return change;
 }
 
 function isLeftAble(row, col) {
@@ -285,9 +336,11 @@ function isLeftAble(row, col) {
 }
 
 function right() {
-	rightPhase1();
-	rightPhase2();
-	rightPhase1();
+    var change = 0;
+	change |= rightPhase1();
+	change |= rightPhase2();
+	change |= rightPhase1();
+    return change;
 }
 
 function rightPhase1() {
@@ -306,9 +359,11 @@ function rightPhase1() {
 	if (change == 1) {
 		rightPhase1();
 	}
+	return change;
 }
 
 function rightPhase2() {
+	var change = 0;
 	for (var col = 2; col >= 0; col--) {
 		for (var row = 0; row <= 3; row++) {
 			if (board[row][col] != -1) {
@@ -321,6 +376,7 @@ function rightPhase2() {
 			}
 		}
 	}
+	return change;
 }
 
 function isRightAble(row, col) {
