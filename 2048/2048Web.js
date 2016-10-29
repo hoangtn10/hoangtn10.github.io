@@ -61,11 +61,22 @@ function checkKey(e) {
     }
 
     if (e.keyCode == '38' || e.keyCode == '40' || e.keyCode == '37' || e.keyCode == '39') {
-    	var freePos = getAvailablePositions();
-		var pos = randomPostion(freePos);
-		board[pos[0]][pos[1]] = 2;
-
 	    setBoard();
+
+	    var freePos = getAvailablePositions();
+		var pos = randomPostion(freePos);
+		var list = document.getElementsByClassName("cell");
+		var index = 4*pos[0] + pos[1]
+
+		list[index].style.opacity = 0;
+		list[index].value = 2;
+		board[pos[0]][pos[1]] = 2;
+		
+		setColor();
+
+		$( list[index] ).animate({
+		opacity: 1,
+		}, 500);
     }
 }
 
@@ -113,7 +124,6 @@ function downPhase1() {
 		for (var col = 0; col <= 3; col++) {
 			if (board[row][col] != -1) {
 				if (isDownAble(row, col) == 1) {
-					downAnimate(row, col);
 					change = 1;
 					board[row+1][col] = board[row][col];
 					board[row][col] = -1;
@@ -138,18 +148,6 @@ function downPhase2() {
 			}
 		}
 	}
-}
-
-function downAnimate(row, col) {
-	$("#jf").animate({
-            left: '250px',
-            opacity: '0.5',
-            height: '150px',
-            width: '150px'
-        });
-
-	//iDiv.
-	//document.getElementsByTagName('body')[0].appendChild(iDiv);
 }
 
 function isDownAble(row, col) {
