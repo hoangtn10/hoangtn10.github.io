@@ -71,7 +71,7 @@ function checkKey(e) {
 		list[index].style.opacity = 0;
 		list[index].value = 2;
 		board[pos[0]][pos[1]] = 2;
-		
+
 		setColor();
 
 		$( list[index] ).animate({
@@ -112,6 +112,25 @@ function setBoard() {
 	setColor();
 }
 
+function glow(row, col) {
+	var list = document.getElementsByClassName("cell");
+	var index = 4*row + col
+
+	$(list[index]).css('transform', 'scale(2)')
+	setTimeout(function() { $(list[index]).css('transform', 'scale(1)') }, 250)
+	/*
+	$(list[index]).animate({
+    	scale: '2',
+	}, 500, function() {
+		$(list[index]).animate({
+    		scale: '1	',
+		}, 500)
+	});
+	*/
+	//$(list[index]).toggleClass("glow");
+	//$(list[index]).transition({ 'font-size': '2em' }, 1000);   
+}
+
 function down() {
 	downPhase1();
 	downPhase2();
@@ -144,6 +163,7 @@ function downPhase2() {
 					change = 1;
 					board[row+1][col] = board[row+1][col]*2;
 					board[row][col] = -1;
+					glow(row+1, col)
 				}
 			}
 		}
@@ -194,6 +214,7 @@ function upPhrase2() {
 					change = 1;
 					board[row-1][col] = board[row-1][col]*2;
 					board[row][col] = -1;
+					glow(row-1, col)
 				}
 			}
 		}
@@ -244,6 +265,7 @@ function leftPhase2() {
 					change = 1;
 					board[row][col-1] = board[row][col-1]*2;
 					board[row][col] = -1;
+					glow(row, col-1)
 				}
 			}
 		}
@@ -294,6 +316,7 @@ function rightPhase2() {
 					change = 1;
 					board[row][col+1] = board[row][col+1]*2;
 					board[row][col] = -1;
+					glow(row, col+1)
 				}
 			}
 		}

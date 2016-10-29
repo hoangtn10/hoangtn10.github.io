@@ -33,6 +33,9 @@ input[type="text"] {
 	margin: 0 auto;
 	font-family: "League-Gothic", Courier;
 	font-weight: bold;
+
+	transform: scale(1);
+  	transition: transform 250ms ease-in-out;
 }
 .ani {
 	background: transparent;
@@ -104,4 +107,13 @@ h1 {
 	0% { opacity: 0; }
 	50% { opacity: 0; -webkit-transform: translateY(-25px); }
 	100% { opacity: 1; -webkit-transform: translateY(0px); }
+}
+.glow {
+	-webkit-animation: glow .5s;
+}
+
+@-webkit-keyframes glow {
+    to {
+        transform: scale(2);
+    }
 }
