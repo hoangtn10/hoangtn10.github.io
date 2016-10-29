@@ -5,37 +5,68 @@ var board = [
 	[-1,-1,-1,-1]
 ]
 
-// TODO
-// downPhase1
-	// move all tile down == 1
-// downPhase2
-	// add all tile down == 2
-// downPhase1 again
+var color = [
+	[2, "#ffffff"],
+	[4, "#ede0c8"],
+	[8, "#f2b179"],
+	[16, "#f59563"],
+	[32, "#f67c5f"],
+	[64, "#f65e3b"],
+	[128, "#edcf72"],
+	[256, "#edcc61"],
+	[512, "#edc850"],
+	[1024, "#edc53f"],
+	[2048, "#edc22e"],
+]
 
 function load() {
 	getBoard();
+	setColor();
 	document.onkeydown = checkKey;
+}
+
+function setColor() {
+	var row = -1, col = 0;
+	var list = document.getElementsByClassName("cell");
+	for (var i = 0; i < 16; i++) {
+		col = i%4;
+		if (col == 0) {
+			row++;
+		}
+		for (var j = 0; j < color.length; j++) {
+			if (list[i].value == color[j][0]) {
+				list[i].style.color = color[j][1];
+				break;
+			}
+			else {
+				list[i].style.color = "#3c3a32";
+			}
+		}
+	}
 }
 
 function checkKey(e) {
     e = e || window.event;
     if (e.keyCode == '38') {
-        // up arrow
         up();
     }
     else if (e.keyCode == '40') {
-        // down arrow
         down();
     }
     else if (e.keyCode == '37') {
-       // left arrow
        left();
     }
     else if (e.keyCode == '39') {
-       // right arrow
        right();
     }
-    setBoard();
+
+    if (e.keyCode == '38' || e.keyCode == '40' || e.keyCode == '37' || e.keyCode == '39') {
+    	var freePos = getAvailablePositions();
+		var pos = randomPostion(freePos);
+		board[pos[0]][pos[1]] = 2;
+
+	    setBoard();
+    }
 }
 
 function getBoard() {
@@ -67,18 +98,38 @@ function setBoard() {
 			list[i].value = null;
 		}
 	}
+	setColor();
 }
 
 function down() {
+	downPhase1();
+	downPhase2();
+	downPhase1();
+}
+
+function downPhase1() {
 	var change = 0;
 	for (var row = 2; row >= 0; row--) {
-		for (var col = 0; col < 4; col++) {
+		for (var col = 0; col <= 3; col++) {
 			if (board[row][col] != -1) {
 				if (isDownAble(row, col) == 1) {
+					downAnimate(row, col);
 					change = 1;
 					board[row+1][col] = board[row][col];
 					board[row][col] = -1;
 				}
+			}
+		}
+	}
+	if (change == 1) {
+		setTimeout(downPhase1(), 1000);
+	}
+}
+
+function downPhase2() {
+	for (var row = 2; row >= 0; row--) {
+		for (var col = 0; col <= 3; col++) {
+			if (board[row][col] != -1) {
 				if (isDownAble(row, col) == 2) {
 					change = 1;
 					board[row+1][col] = board[row+1][col]*2;
@@ -86,28 +137,19 @@ function down() {
 				}
 			}
 		}
-		if (change == 1) {
-			downClean();
-		}
 	}
 }
 
-function downClean() {
-	var change = 0;
-	for (var row = 2; row >= 0; row--) {
-		for (var col = 0; col < 4; col++) {
-			if (board[row][col] != -1) {
-				if (isDownAble(row, col) == 1) {
-					change = 1;
-					board[row+1][col] = board[row][col];
-					board[row][col] = -1;
-				}
-			}
-		}
-		if (change == 1) {
-			downClean();
-		}
-	}
+function downAnimate(row, col) {
+	$("#jf").animate({
+            left: '250px',
+            opacity: '0.5',
+            height: '150px',
+            width: '150px'
+        });
+
+	//iDiv.
+	//document.getElementsByTagName('body')[0].appendChild(iDiv);
 }
 
 function isDownAble(row, col) {
@@ -123,15 +165,33 @@ function isDownAble(row, col) {
 }
 
 function up() {
+	upPhrase1();
+	upPhrase2();
+	upPhrase1();
+}
+
+function upPhrase1() {
 	var change = 0;
-	for (var row = 0; row <= 2; row++) {
-		for (var col = 0; col < 4; col++) {
+	for (var row = 1; row <= 3; row++) {
+		for (var col = 0; col <= 3; col++) {
 			if (board[row][col] != -1) {
 				if (isUpAble(row, col) == 1) {
 					change = 1;
 					board[row-1][col] = board[row][col];
 					board[row][col] = -1;
 				}
+			}
+		}
+	}
+	if (change == 1) {
+		upPhrase1();
+	}
+}
+
+function upPhrase2() {
+	for (var row = 1; row <= 3; row++) {
+		for (var col = 0; col <= 3; col++) {
+			if (board[row][col] != -1) {
 				if (isUpAble(row, col) == 2) {
 					change = 1;
 					board[row-1][col] = board[row-1][col]*2;
@@ -139,14 +199,7 @@ function up() {
 				}
 			}
 		}
-		if (change == 1) {
-			upClean();
-		}
 	}
-}
-
-function upClean() {
-
 }
 
 function isUpAble(row, col) {
@@ -162,32 +215,41 @@ function isUpAble(row, col) {
 }
 
 function left() {
-	var col = 4, row = 0, change = 0;
-	for (var i = 0; i < 12; i++) {
-		row = i%4;
-		if (row == 0) {
-			col--;
-		}
-		if (board[row][col] != -1) {
-			if (isLeftAble(row, col) == 1) {
-				change = 1;
-				board[row][col-1] = board[row][col];
-				board[row][col] = -1;
-			}
-			if (isLeftAble(row, col) == 2) {
-				change = 1;
-				board[row][col-1] = board[row][col-1]*2;
-				board[row][col] = -1;
+	leftPhase1();
+	leftPhase2();
+	leftPhase1();
+}
+
+function leftPhase1() {
+	var change = 0;
+	for (var col = 1; col <= 3; col++) {
+		for (var row = 0; row <= 3; row++) {
+			if (board[row][col] != -1) {
+				if (isLeftAble(row, col) == 1) {
+					change = 1;
+					board[row][col-1] = board[row][col];
+					board[row][col] = -1;
+				}
 			}
 		}
 	}
 	if (change == 1) {
-		leftClean();
+		leftPhase1();
 	}
 }
 
-function leftClean() {
-
+function leftPhase2() {
+	for (var col = 1; col <= 3; col++) {
+		for (var row = 0; row <= 3; row++) {
+			if (board[row][col] != -1) {
+				if (isLeftAble(row, col) == 2) {
+					change = 1;
+					board[row][col-1] = board[row][col-1]*2;
+					board[row][col] = -1;
+				}
+			}
+		}
+	}
 }
 
 function isLeftAble(row, col) {
@@ -203,32 +265,41 @@ function isLeftAble(row, col) {
 }
 
 function right() {
-	var col = 3, row = 0, change = 0;
-	for (var i = 4; i < 16; i++) {
-		row = i%4;
-		if (row == 0) {
-			col--;
-		}
-		if (board[row][col] != -1) {
-			if (isRightAble(row, col) == 1) {
-				change = 1;
-				board[row][col+1] = board[row][col];
-				board[row][col] = -1;
-			}
-			if (isRightAble(row, col) == 2) {
-				change = 1;
-				board[row][col+1] = board[row][col+1]*2;
-				board[row][col] = -1;
+	rightPhase1();
+	rightPhase2();
+	rightPhase1();
+}
+
+function rightPhase1() {
+	var change = 0;
+	for (var col = 2; col >= 0; col--) {
+		for (var row = 0; row <= 3; row++) {
+			if (board[row][col] != -1) {
+				if (isRightAble(row, col) == 1) {
+					change = 1;
+					board[row][col+1] = board[row][col];
+					board[row][col] = -1;
+				}
 			}
 		}
 	}
 	if (change == 1) {
-		right();
+		rightPhase1();
 	}
 }
 
-function rightClean() {
-
+function rightPhase2() {
+	for (var col = 2; col >= 0; col--) {
+		for (var row = 0; row <= 3; row++) {
+			if (board[row][col] != -1) {
+				if (isRightAble(row, col) == 2) {
+					change = 1;
+					board[row][col+1] = board[row][col+1]*2;
+					board[row][col] = -1;
+				}
+			}
+		}
+	}
 }
 
 function isRightAble(row, col) {
@@ -243,10 +314,19 @@ function isRightAble(row, col) {
 	return 0;
 }
 
-function randomPostion() {
-
+function randomPostion(pos) {
+	var rand = Math.floor((Math.random() * pos.length));
+	return pos[rand];
 }
 
 function getAvailablePositions() {
-
+	var positions = [];
+	for (var row = 0; row <= 3; row++) {
+		for (var col = 0; col <= 3; col++) {
+			if (board[row][col] == -1) {
+				positions.push([row, col]);
+			}
+		}
+	}
+	return positions;
 }

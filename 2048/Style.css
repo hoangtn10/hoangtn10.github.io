@@ -5,7 +5,6 @@
 		transform: scale(.8) translate(-10px,-100px);
     }
 }
-
 td {
     text-align: center;
 }
@@ -35,13 +34,25 @@ input[type="text"] {
 	font-family: "League-Gothic", Courier;
 	font-weight: bold;
 }
-
+.ani {
+	background: transparent;
+    border: none;
+	color: white;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	font-size: 1.5em;
+    outline: none;
+	
+	margin: 0 auto;
+	font-family: "League-Gothic", Courier;
+	font-weight: bold;
+}
 h1 {
 	text-align: center;
 	margin: 0 auto;
 	font-family: "League-Gothic", Courier;
 }
-
 .btn {
 	text-align: center;
 	margin: 0 auto;
@@ -50,7 +61,6 @@ h1 {
 	font-size: 2em;
 	font-weight: bold;
 }
-
 .btn:hover {
 	color: rgba(255,0,180,0.5);
 }
@@ -58,7 +68,6 @@ h1 {
 .btn:focus {
 	color: rgba(255,0,180,0.5);
 }
-
 .slidingVertical {
 	animation: topToBottom .5s forwards;
 	-ms-animation: topToBottom .5s forwards;
@@ -95,4 +104,7 @@ h1 {
 	0% { opacity: 0; }
 	50% { opacity: 0; -webkit-transform: translateY(-25px); }
 	100% { opacity: 1; -webkit-transform: translateY(0px); }
+}
+#jk {
+	position: fixed;
 }
