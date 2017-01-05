@@ -1,124 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta name="generator"
-        content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
-        <title>Hoang Nguyen Dinh</title>
+        <title>Hoang Nguyen</title>
         <meta charset="utf-8" />
+        <meta name="theme-color" content="#999999">
+        <link rel='shortcut icon' href='2048.png' type='image/x-icon'/ >
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/flatly/bootstrap.min.css" />
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cyborg/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="style.css" />
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <link rel="shortcut icon" href="4.png" />
+        <link rel="stylesheet" href="Style.css" />
+        <script src="Web.js"></script>
     </head>
-    <body>
-        <nav class="navbar navbar-default slidingVertical">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                </button> 
-                <a class="navbar-brand" href="#">Hoang</a></div>
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="#">Home 
-                            <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li>
-                            <a href="Hoang Nguyen Resume.pdf">Resume PDF</a>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#emailModal">Email</a>
-                        </li>
-                    </ul>
-                </div>
+    <body onload="load()">
+        <div class="container center slidingVertical">
+            <h1 style="width: 650px;"> Hoang Nguyen </h1>
+            <div>
+                "Computer Scientist"
+                <br><br>
+                <div>
+	                <a href="Hoang Nguyen Resume.pdf" class="btn btn-info">Resume</a>
+	            </div>
             </div>
-        </nav>
-        <h1 class="center slidingVertical">Hoang Nguyen Dinh</h1>
-		<div class="slidingVertical delay1">
+			<br>
 		</div>
-        <div class="container">
-			<div class="col-sm-3"></div>
-			<div class="center slidingVertical delay2 col-sm-6">
-				<p style="text-align:center;">
-					I am a "computer scientist".
-				</p>
-			</div>
-            <div class="col-sm-3"></div>
-        </div>
-        <div class="container">
-            <div class="row center">
-				<div class="center slidingVertical delay4">
-					<h3>Projects</h3>
-				</div>
-                <div class="col-md-4 slidingVertical delay4">
-                    <div id="img">
-                        <a href="Sudoku/Sudoku.html" target="_blank">
-                            <img src="1.svg" class="img" alt="Sudoku" />
-                        </a>
-						<br><br>
-						<div>
-							A Javascript implementation of Backtracking Constraint Satisfaction Problem on Sudoku.
-						</div>
-                    </div>
-                </div>
-                <div class="col-md-4 slidingVertical delay5">
-                    <div id="img">
-                        <a href="PolygonWar/PolygonWar.html" target="_blank">
-                            <img src="2.svg" class="img" alt="PentagonWar" />
-                        </a>
-						<br><br>
-						<div>
-							Created using CreateJS, HTML and CSS, heroic triangle meets heinous pentagon.
-						</div>
-                    </div>
-                </div>
-                <div class="col-md-4 slidingVertical delay6">
-                    <div id="img">
-                        <a href="2048/2048.html" target="_blank">
-                            <img src="3.svg" class="img" alt="2048" />
-                        </a>
-						<br><br>
-						<div>
-							Slide up, down, left, and right here on this Javascript application. 
-						</div>
-                    </div>
-                </div>
+        <div class="container center slidingVertical delay1">
+            <div class="col-sm-4">
+                <h4>2048</h4>
+                <a href="Sudoku/Sudoku.html" target="_blank">
+                    <img src="1.svg" class="img" alt="Sudoku" width=60%/>
+                </a>
+                <br>
+                Javascript: slide (up|down|left|right).
+            </div>
+            <div class="col-sm-4">
+                <h4>Poligon Wars</h4>
+                <a href="Sudoku/Sudoku.html" target="_blank">
+                    <img src="2.svg" class="img" alt="Sudoku" width=60%/>
+                </a>
+                <br>
+                CreateJS libraries: heroic triangle vs. heinous pentagons.
+            </div>
+            <div class="col-sm-4">
+                <h4>Sudoku</h4> 
+                <a href="Sudoku/Sudoku.html" target="_blank">
+                    <img src="3.svg" class="img" alt="Sudoku" width=60%/>
+                </a>
+                <br>
+                Backtracking CSP Algorithm. Sudoku.
             </div>
         </div>
-        <div style="color: #18bc9c;" class="container center slidingVertical delay7">
-			Nguy1931@umn.edu - 651-354-8107
+        <br>
+        <div class="container slidingVertical delay2">
+	        <div class="col-sm-4 col-sm-offset-4">
+<pre id="asciimator"></pre>
+	        </div>
         </div>
-        <div class="modal fade" id="emailModal">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form class="form-horizontal" method="get" action="http://www-users.cselabs.umn.edu/~nguy1931/PersonalSite/Email.php">
-                            <fieldset>
-                            <button href="mailto:nguy1931@umn.edu" class="close" style="float: left">nguy1931@umn.edu</button> 
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Close!</button>
-                            <br />
-                            <br />
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    <input name="subject" type="text" class="form-control" placeholder="Subject" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    <textarea name="body" class="form-control" rows="3" placeholder="Body"></textarea>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" type="submit" value="Send"
-                            style="float: right;">Send!</button></fieldset>
-                        </form>
+        <br>
+        <div class="container center slidingVertical delay3">
+            <div class="col-sm-8 col-sm-offset-2">
+                <div class="well">
+                    <div>
+                        nguy1931@gmail.com - 651-354-8107
                     </div>
+                    <br>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <input id="subj" name="subject" type="text" class="form-control" placeholder="Subject" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <textarea id="body" name="body" class="form-control" rows="3" placeholder="Body"></textarea>
+                            </div>
+                        </div>
+                        <button type='button' class="btn btn-warning" onclick="del()" style="float: left;">Delete!</button>
+                        <button type='button' class="btn btn-success" onclick="sen()" style="float: right;">Send!</button>
+                    </form>
+                    <br><br>
                 </div>
             </div>
         </div>
