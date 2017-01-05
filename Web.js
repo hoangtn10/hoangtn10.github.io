@@ -34,7 +34,7 @@ var frames = [	'    |>\n    |\n   _|\n  | |',
 				'  V\n  |\n  |_\n  | |\n',
 				'  |>\n  |\n  |_\n  | |\n',
 				'   |>\n   |\n   |\n  | |\n'
-];
+];		
 var frameIndex = 0;
 
 function load() {
@@ -45,9 +45,9 @@ function load() {
 function phase1() {
 	var asciimator = document.getElementById("asciimator");
 	asciimator.innerHTML = frames[frameIndex];
-	frameIndex = (frameIndex+1)%26;
+	frameIndex = (frameIndex+1)%36;
 
-	if (frameIndex == 10) {
+	if (frameIndex == 15) {
 		setTimeout(function(){ 
 			phase2();;
 		}, 1500);
@@ -61,9 +61,9 @@ function phase1() {
 function phase2() {
 	var asciimator = document.getElementById("asciimator");
 	asciimator.innerHTML = frames[frameIndex];
-	frameIndex = (frameIndex+1)%26;
+	frameIndex = (frameIndex+1)%36;
 
-	if (frameIndex == 23) {
+	if (frameIndex == 33) {
 		setTimeout(function(){ 
 			phase1();;
 		}, 1500);
