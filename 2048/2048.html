@@ -1,87 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>2048</title>
+        <title>Hoang Nguyen</title>
         <meta charset="utf-8" />
         <meta name="theme-color" content="#999999">
-        <link rel='shortcut icon' href='2048.png' type='image/x-icon'/ >
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cyborg/bootstrap.min.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-git.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script src="2048Web.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.js"></script>
         <link rel="stylesheet" href="Style.css" />
+        <link rel="shortcut icon" href="2048.png" />
+        <script src="2048Web.js"></script>
     </head>
     <body onload="load()">
-        <div class="container">
-            <br>
-            <h1 class="slidingVertical" style="width: 650px;">(¯°·.• 2048 •.·°¯)</h1>
-            <br>
-            <div class="well well-lg slidingVertical delay1" style="width: 400px; height: 400px; margin: 0 auto">
-                <table class="table table-bordered" style="width: 350px; height: 350px;">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input class="cell" type="text" size="1" value=2 readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                            <td>
-                                <input class="cell" type="text" size="1" readonly />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+
+        <div class="container center slidingVertical">
+            <div class="col-sm-4 col-sm-offset-4">
+                <h1>2048</h1>
+                Score: <span id="score">0</span>
+                Best: <span id="best">0</span>
+                <br><br>
             </div>
-            <br>
-            <h4><a class="slidingVertical delay2" href="#" onclick="newGame()">New Game</a></h4>
         </div>
+
+       <div id="fixed" class="container center slidingVertical delay1">
+            <div class="col-sm-4 col-sm-offset-4 well">
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">
+                                2
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">               
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">               
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">               
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">               
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">               
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">               
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">               
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="square">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers">               
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h1><i class="fa fa-fw">&#xf11b;</i></h1>
+            </div>
+       </div>
+
+        <div class="col-sm-4 col-sm-offset-4 slidingVertical delay2">
+            <h4 onclick="newGame()">New Game</h4>
+        </div>
+
     </body>
 </html>

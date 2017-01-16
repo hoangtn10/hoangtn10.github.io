@@ -1,5 +1,5 @@
 var board = [
-	[-1,-1,-1,-1],
+	[2,-1,-1,-1],
 	[-1,-1,-1,-1],
 	[-1,-1,-1,-1],
 	[-1,-1,-1,-1]
@@ -22,9 +22,62 @@ var color = [
 var alertOnce = 0;
 
 function load() {
+	setBoard();
 	getBoard();
 	setColor();
+
 	document.onkeydown = checkKey;
+
+	document.getElementById('fixed').addEventListener('touchmove', function(e) {
+	    e.preventDefault();
+	}, false);
+
+	$(function() {
+		$(".well").swipe( {
+			preventDefaultEvents: false,
+			allowPageScroll:"none",
+			swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+				var change = 0;
+				if (direction == "up") {
+					change = up();
+				}
+				if (direction == "down") {
+					change = down();
+				}
+				if (direction == "left") {
+					change = left();
+				}
+				if (direction == "right") {
+					change = right();
+				}
+				if (direction == "up" || direction == "down" || direction == "left" || direction == "right") {
+					var freePos = getAvailablePositions();
+				    if (freePos.length != 0) {
+				    	var pos = randomPostion(freePos);
+						var list = document.getElementsByClassName("numbers");
+						var index = 4*pos[0] + pos[1]
+						var rand = Math.floor((Math.random() * 2) + 1) * 2;
+
+				        if (change == 1) {
+				            list[index].style.opacity = 0;
+				    		list[index].innerHTML = rand;
+				    		board[pos[0]][pos[1]] = rand;
+				    
+				    		$( list[index] ).animate({
+				    		    opacity: 1,
+				    		}, 500);
+				        }
+				        
+				        setBoard();
+				        checkWon();
+				        checkLost();
+				        setColor();
+				    }
+				}
+			},
+			threshold:0
+		});
+	});
 }
 
 function newGame() {
@@ -35,19 +88,20 @@ function newGame() {
 	    }
     }
     board[0][0] = 2;
+    document.getElementById("score").innerHTML = 0;
     setBoard();
 }
 
 function setColor() {
 	var row = -1, col = 0;
-	var list = document.getElementsByClassName("cell");
+	var list = document.getElementsByClassName("numbers");
 	for (var i = 0; i < 16; i++) {
 		col = i%4;
 		if (col == 0) {
 			row++;
 		}
 		for (var j = 0; j < color.length; j++) {
-			if (list[i].value == color[j][0]) {
+			if (list[i].innerHTML == color[j][0]) {
 				list[i].style.color = color[j][1];
 				break;
 			}
@@ -78,13 +132,13 @@ function checkKey(e) {
 	    var freePos = getAvailablePositions();
 	    if (freePos.length != 0) {
 	    	var pos = randomPostion(freePos);
-			var list = document.getElementsByClassName("cell");
+			var list = document.getElementsByClassName("numbers");
 			var index = 4*pos[0] + pos[1]
 			var rand = Math.floor((Math.random() * 2) + 1) * 2;
 
 	        if (change == 1) {
 	            list[index].style.opacity = 0;
-	    		list[index].value = rand;
+	    		list[index].innerHTML = rand;
 	    		board[pos[0]][pos[1]] = rand;
 	    
 	    		$( list[index] ).animate({
@@ -129,42 +183,55 @@ function checkLost() {
 
 function getBoard() {
 	var row = -1, col = 0;
-	var list = document.getElementsByClassName("cell");
+	var list = document.getElementsByClassName("numbers");
 	for (var i = 0; i < 16; i++) {
 		col = i%4;
 		if (col == 0) {
 			row++;
 		}
-		if (list[i].value) {
-			board[row][col] = list[i].value;
+		if (list[i].innerHTML) {
+			board[row][col] = list[i].innerHTML;
 		}
 	}
 }
 
 function setBoard() {
 	var row = -1, col = 0;
-	var list = document.getElementsByClassName("cell");
+	var list = document.getElementsByClassName("numbers");
 	for (var i = 0; i < 16; i++) {
 		col = i%4;
 		if (col == 0) {
 			row++;
 		}
 		if (board[row][col] != -1) {
-			list[i].value = board[row][col];
+			list[i].innerHTML = board[row][col];
 		}
 		else {
-			list[i].value = null;
+			list[i].innerHTML = null;
 		}
 	}
 	setColor();
 }
 
-function glow(row, col) {
-	var list = document.getElementsByClassName("cell");
-	var index = 4*row + col
+function addScore(newScore) {
+	var score = document.getElementById("score");
+	var best = document.getElementById("best");
 
-	$(list[index]).css('transform', 'scale(2)')
-	setTimeout(function() { $(list[index]).css('transform', 'scale(1)') }, 250)
+	if (newScore != null) {
+		score.innerHTML = eval(score.innerHTML) + newScore;
+		if (eval(score.innerHTML) > eval(best.innerHTML)) {
+			best.innerHTML = score.innerHTML;
+		}
+	}
+}
+
+function glow(row, col) {
+	var list = document.getElementsByClassName("numbers");
+	var index = 4*row + col
+	addScore(eval(list[index].innerHTML));
+
+	$(list[index]).css('transform', 'scale(2)');
+	setTimeout(function() { $(list[index]).css('transform', 'scale(1)') }, 250);
 }
 
 function down() {
