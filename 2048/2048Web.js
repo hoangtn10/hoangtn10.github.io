@@ -63,15 +63,17 @@ function load() {
 				    		list[index].innerHTML = rand;
 				    		board[pos[0]][pos[1]] = rand;
 				    
-				    		$( list[index] ).animate({
+				    		$( list[index] ).velocity({
 				    		    opacity: 1,
 				    		}, 500);
 				        }
 				        
-				        setBoard();
-				        checkWon();
-				        checkLost();
-				        setColor();
+				        setTimeout(function(){ 
+				        	setBoard();
+					        checkWon();
+					        checkLost();
+					        setColor();
+				        }, 100);
 				    }
 				}
 			},
@@ -141,7 +143,7 @@ function checkKey(e) {
 	    		list[index].innerHTML = rand;
 	    		board[pos[0]][pos[1]] = rand;
 	    
-	    		$( list[index] ).animate({
+	    		$( list[index] ).velocity({
 	    		    opacity: 1,
 	    		}, 500);
 	        }
@@ -306,23 +308,23 @@ function move(row, col, type) {
 	var from = list[index];
 
     if (type == 2) {
-        $(from).animate({top: "-="+$(from).height()}, 100, 'linear', function() {
-            $(from).animate({top: "+="+$(from).height()}, 0, 'linear');
+        $(from).velocity({top: "-="+$(from).height()}, 100, 'linear', function() {
+            $(from).velocity({top: "+="+$(from).height()}, 0, 'linear');
         });
     }
     else if (type == 1) {
-        $(from).animate({top: "+="+$(from).height()}, 100, 'linear', function() {
-            $(from).animate({top: "-="+$(from).height()}, 0, 'linear');
+        $(from).velocity({top: "+="+$(from).height()}, 100, 'linear', function() {
+            $(from).velocity({top: "-="+$(from).height()}, 0, 'linear');
         });
     }
     else if (type == 3) {
-       $(from).animate({left: "-="+$(from).height()}, 100, 'linear', function() {
-            $(from).animate({left: "+="+$(from).height()}, 0, 'linear');
+       $(from).velocity({left: "-="+$(from).height()}, 100, 'linear', function() {
+            $(from).velocity({left: "+="+$(from).height()}, 0, 'linear');
         });
     }
     else if (type == 4) {
-       $(from).animate({left: "+="+$(from).height()}, 100, 'linear', function() {
-            $(from).animate({left: "-="+$(from).height()}, 0, 'linear');
+       $(from).velocity({left: "+="+$(from).height()}, 100, 'linear', function() {
+            $(from).velocity({left: "-="+$(from).height()}, 0, 'linear');
         });
     }
     else {
