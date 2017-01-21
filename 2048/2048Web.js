@@ -146,10 +146,14 @@ function checkKey(e) {
 	    		}, 500);
 	        }
 	        
-	        setBoard();
-	        checkWon();
-	        checkLost();
-	        setColor();
+	        setTimeout(function(){ 
+	        	setBoard();
+		        checkWon();
+		        checkLost();
+		        setColor();
+	        }, 100);
+
+	        
 	    }
     }
 }
@@ -251,6 +255,7 @@ function downPhase1() {
 					change = 1;
 					board[row+1][col] = board[row][col];
 					board[row][col] = -1;
+					move(row, col, 1)
 				}
 			}
 		}
@@ -270,6 +275,7 @@ function downPhase2() {
 					change = 1;
 					board[row+1][col] = board[row+1][col]*2;
 					board[row][col] = -1;
+					move(row, col, 1);
 					glow(row+1, col)
 				}
 			}
@@ -290,6 +296,40 @@ function isDownAble(row, col) {
 	return 0;
 }
 
+// type 1 : up
+// type 2 : down
+// type 3 : left
+// type 4 : right
+function move(row, col, type) {
+	var index = row*4 + col;
+	var list = document.getElementsByClassName("content");
+	var from = list[index];
+
+    if (type == 2) {
+        $(from).animate({top: "-="+$(from).height()}, 100, 'linear', function() {
+            $(from).animate({top: "+="+$(from).height()}, 0, 'linear');
+        });
+    }
+    else if (type == 1) {
+        $(from).animate({top: "+="+$(from).height()}, 100, 'linear', function() {
+            $(from).animate({top: "-="+$(from).height()}, 0, 'linear');
+        });
+    }
+    else if (type == 3) {
+       $(from).animate({left: "-="+$(from).height()}, 100, 'linear', function() {
+            $(from).animate({left: "+="+$(from).height()}, 0, 'linear');
+        });
+    }
+    else if (type == 4) {
+       $(from).animate({left: "+="+$(from).height()}, 100, 'linear', function() {
+            $(from).animate({left: "-="+$(from).height()}, 0, 'linear');
+        });
+    }
+    else {
+        console.log("move(): wrong type")
+    }
+}
+
 function up() {
     var change = 0;
 	change |= upPhase1();
@@ -307,6 +347,7 @@ function upPhase1() {
 					change = 1;
 					board[row-1][col] = board[row][col];
 					board[row][col] = -1;
+					move(row, col, 2)
 				}
 			}
 		}
@@ -326,6 +367,7 @@ function upPhase2() {
 					change = 1;
 					board[row-1][col] = board[row-1][col]*2;
 					board[row][col] = -1;
+					move(row, col, 2)
 					glow(row-1, col)
 				}
 			}
@@ -363,6 +405,7 @@ function leftPhase1() {
 					change = 1;
 					board[row][col-1] = board[row][col];
 					board[row][col] = -1;
+					move(row, col, 3)
 				}
 			}
 		}
@@ -382,6 +425,7 @@ function leftPhase2() {
 					change = 1;
 					board[row][col-1] = board[row][col-1]*2;
 					board[row][col] = -1;
+					move(row, col, 3)
 					glow(row, col-1)
 				}
 			}
@@ -419,6 +463,7 @@ function rightPhase1() {
 					change = 1;
 					board[row][col+1] = board[row][col];
 					board[row][col] = -1;
+					move(row, col, 4)
 				}
 			}
 		}
@@ -438,6 +483,7 @@ function rightPhase2() {
 					change = 1;
 					board[row][col+1] = board[row][col+1]*2;
 					board[row][col] = -1;
+					move(row, col, 4)
 					glow(row, col+1)
 				}
 			}
