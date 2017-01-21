@@ -213,7 +213,7 @@ function setBoard() {
 			list[i].innerHTML = board[row][col];
 		}
 		else {
-			list[i].innerHTML = null;
+			list[i].innerHTML = "";
 		}
 	}
 	setColor();
