@@ -234,7 +234,8 @@ function addScore(newScore) {
 function glow(row, col) {
 	var list = document.getElementsByClassName("numbers");
 	var index = 4*row + col
-	addScore(eval(list[index].innerHTML));
+	addScore(board[row][col]);
+	list[index].innerHTML = board[row][col];
 
 	$(list[index]).css('transform', 'scale(2)');
 	setTimeout(function() { $(list[index]).css('transform', 'scale(1)') }, 250);
@@ -288,11 +289,14 @@ function downPhase2() {
 
 function isDownAble(row, col) {
 	if (4*row+col < 12) {
-		if (board[row+1][col] == -1) {
+		if (board[row][col] == -1) {
+			return 0;
+		}
+		else if (board[row+1][col] == -1) {
 			return 1;
 		}
 		else if (board[row+1][col] == board[row][col]) {
-			return 2
+			return 2;
 		}
 	}
 	return 0;
@@ -303,18 +307,16 @@ function isDownAble(row, col) {
 // type 3 : left
 // type 4 : right
 function move(row, col, type) {
-	var index = row*4 + col;
-	var list = document.getElementsByClassName("content");
-	var from = list[index];
+	var from = document.getElementsByClassName("content")[row*4 + col];
 
-    if (type == 2) {
-        $(from).velocity({top: "-="+$(from).height()}, 100, 'linear', function() {
-            $(from).velocity({top: "+="+$(from).height()}, 0, 'linear');
-        });
-    }
-    else if (type == 1) {
+    if (type == 1) {
         $(from).velocity({top: "+="+$(from).height()}, 100, 'linear', function() {
             $(from).velocity({top: "-="+$(from).height()}, 0, 'linear');
+        });
+    }	
+    else if (type == 2) {
+        $(from).velocity({top: "-="+$(from).height()}, 100, 'linear', function() {
+            $(from).velocity({top: "+="+$(from).height()}, 0, 'linear');
         });
     }
     else if (type == 3) {
@@ -380,6 +382,9 @@ function upPhase2() {
 
 function isUpAble(row, col) {
 	if (4*row+col >= 4) {
+		if (board[row][col] == -1) {
+			return 0;
+		}
 		if (board[row-1][col] == -1) {
 			return 1;
 		}
@@ -438,6 +443,9 @@ function leftPhase2() {
 
 function isLeftAble(row, col) {
 	if (col > 0 && col < 4 && row >= 0 && row < 4) {
+		if (board[row][col] == -1) {
+			return 0;
+		}
 		if (board[row][col-1] == -1) {
 			return 1;
 		}
@@ -496,6 +504,9 @@ function rightPhase2() {
 
 function isRightAble(row, col) {
 	if (col >= 0 && col < 3 && row >= 0 && row < 4) {
+		if (board[row][col] == -1) {
+			return 0;
+		}
 		if (board[row][col+1] == -1) {
 			return 1;
 		}
