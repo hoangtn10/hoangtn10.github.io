@@ -302,10 +302,6 @@ function isDownAble(row, col) {
 	return 0;
 }
 
-// type 1 : up
-// type 2 : down
-// type 3 : left
-// type 4 : right
 function move(row, col, type) {
 	var from = document.getElementsByClassName("content")[row*4 + col];
 
