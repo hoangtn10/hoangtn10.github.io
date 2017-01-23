@@ -230,13 +230,12 @@ function addScore(newScore) {
 }
 
 function glow(row, col) {
-	var list = document.getElementsByClassName("numbers");
-	var index = 4*row + col
+	var from = document.getElementsByClassName("numbers")[4*row + col];
 	addScore(board[row][col]);
-	list[index].innerHTML = board[row][col];
+	from.innerHTML = board[row][col];
 
-	$(list[index]).css('transform', 'scale(2)');
-	setTimeout(function() { $(list[index]).css('transform', 'scale(1)') }, 250);
+	$(from).css('transform', 'scale(2)');
+	setTimeout(function() { $(from).css('transform', 'scale(1)') }, 250);
 }
 
 function down() {
