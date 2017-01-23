@@ -154,8 +154,6 @@ function checkKey(e) {
 		        checkLost();
 		        setColor();
 	        }, 100);
-
-	        
 	    }
     }
 }
