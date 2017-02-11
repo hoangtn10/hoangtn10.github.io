@@ -219,7 +219,7 @@ function checkBtn() {
        	var status = "Everything looks good!";
     }
     else {
-        var status = "Uh oh, there's a misplaced cell!";
+        var status = "There's a misplaced cell!";
     }
     document.getElementById("status").innerHTML = status;
     $('.modal').modal('toggle');
