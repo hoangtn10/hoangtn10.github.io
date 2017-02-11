@@ -1,392 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta name="generator"
-        content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
-        <title>Sudoku</title>
-        <meta charset="utf-8" />
-		<meta name="theme-color" content="#999999">
-        <link rel='shortcut icon' href='Sudoku.png' type='image/x-icon'/ >
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/darkly/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+        <meta charset="utf-8">
+        <title>Hoang Nguyen</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.4.0/velocity.min.js"></script>
+        <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+
+        <link href="../superhero/bootstrap.min.css" rel="stylesheet">
+        <link href="../superhero/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="../superhero/bootswatch.css" rel="stylesheet">
+        <script src="../superhero/bootstrap.min.js"></script>
+        
         <link rel="stylesheet" href="Style.css" />
+        <link rel="shortcut icon" href="Sudoku.png" />
         <script src="SudokuSolver.js"></script>
         <script src="SudokuWeb.js"></script>
     </head>
-    <body onload="medBtn()">
-        <div class="container">
-            <h1 class="slidingVertical" style="width: 650px;">SUDOKU</h1>
-            <div id="good" style="width: 650px; margin: 0 auto; display: none;" class="alert alert-dismissible alert-info">
-				<button onclick="exit('good')" type="button" class="close"><i class="fa fa-times"></i></button>
-                <strong>Everything looks good!</strong>
+    <body onload="load()">
+        <div class="container center slidingVertical">
+            <div class="span4 center"></div>
+            <div class="span4 center">
+                <h1>Sudoku</h1>
             </div>
-            <div id="wrong" hidden="" style="width: 650px; margin: 0 auto;" class="alert alert-dismissible alert-warning">
-				<button onclick="exit('wrong')" type="button" class="close"><i class="fa fa-times"></i></button>
-                <strong>Something&#39;s wrong!</strong>
+        </div>
+        <div class="container slidingVertical delay1">
+            <div class="span3 center"></div>
+            <div class="span6 center just">
+                <div><h3 onclick="easyBtn()">Easy</h3></div>
+                <div><h3 onclick="medBtn()">Medium</h3></div>
+                <div><h3 onclick="hardBtn()">Hard</h3></div>
             </div>
-            <div id="finish" hidden="" style="width: 650px; margin: 0 auto;" class="alert alert-dismissible alert-success">
-				<button onclick="exit('finish')" type="button" class="close"><i class="fa fa-times"></i></button>
-                <strong>Congratulation! You finish the game!</strong>
+        </div>
+        <div id="fixed" class="container center slidingVertical delay2">
+            <div class="span3 center"></div>
+            <div class="span6 center">
+                <div class="square" id="cell">
+                    <div class="content">
+                        <div class="table">
+                            <div class="table-cell numbers"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="btn-group btn-group-justified slidingVertical delay1" style="width: 650px; margin: 0 auto;">
-            <a onclick="easyBtn()" class="btn">Easy</a> 
-            <a onclick="medBtn()" class="btn">Medium</a> 
-            <a onclick="hardBtn()" class="btn">Hard</a></div>
-            <div class="well well-lg slidingVertical delay2" style="width: 600px; height: 600px; margin: 0 auto">
-                <table class="table table-bordered" style="width: 550px; height: 550px;">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                            <td>
-                                <input class="cell" pattern="[0-9]*" type="text" minlength="1" maxlength="1" tabindex="1"
-                                size="1" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        </div>
+        <div class="container slidingVertical delay3">
+            <div class="span3 center"></div>
+            <div class="span6 center just">
+                <div><h3 onclick="checkBtn()">Check</h3></div>
+                <div><h3 onclick="blankBtn()">Blank</h3></div>
+                <div><h3 onclick="solveBtn()">Solve</h3></div>
             </div>
-            <div class="btn-group btn-group-justified slidingVertical delay3" style="width: 650px; margin: 0 auto;">
-            <a onclick="checkBtn()" class="btn">Check</a> 
-            <a onclick="customBtn()" class="btn">Custom</a> 
-            <a onclick="solveBtn()" class="btn">Solve</a></div>
+        </div>
+        <div class="modal hide fade">
+            <div class="modal-body center modal-sm">
+                <h3 class="center " id="status"></h3>
+            </div>
         </div>
     </body>
 </html>

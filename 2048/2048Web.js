@@ -22,6 +22,12 @@ var color = [
 var alertOnce = 0;
 
 function load() {
+	var cell = document.getElementById("cell");
+    for (var i = 0; i < 15; i++) {
+        var cln = cell.cloneNode(true);
+        cell.parentNode.insertBefore(cln, cell);
+    }
+
 	setBoard();
 	getBoard();
 	setColor();
@@ -33,7 +39,7 @@ function load() {
 	}, false);
 
 	$(function() {
-		$(".well").swipe( {
+		$(".controller").swipe( {
 			preventDefaultEvents: false,
 			allowPageScroll:"none",
 			swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
@@ -53,6 +59,7 @@ function load() {
 				if (direction == "up" || direction == "down" || direction == "left" || direction == "right") {
 					var freePos = getAvailablePositions();
 				    if (freePos.length != 0) {
+				    	console.log("hi")
 				    	var pos = randomPostion(freePos);
 						var list = document.getElementsByClassName("numbers");
 						var index = 4*pos[0] + pos[1]
@@ -63,17 +70,15 @@ function load() {
 				    		list[index].innerHTML = rand;
 				    		board[pos[0]][pos[1]] = rand;
 				    
-				    		$( list[index] ).velocity({
+				    		$( list[index] ).animate({
 				    		    opacity: 1,
 				    		}, 500);
 				        }
 				        
-				        setTimeout(function(){ 
-				        	setBoard();
-					        checkWon();
-					        checkLost();
-					        setColor();
-				        }, 100);
+			        	setBoard();
+				        checkWon();
+				        checkLost();
+				        setColor();  
 				    }
 				}
 			},
@@ -103,12 +108,18 @@ function setColor() {
 			row++;
 		}
 		for (var j = 0; j < color.length; j++) {
+			if (list[i].innerHTML == "") {
+				list[i].parentNode.style.borderColor = "#2a333c"
+				break;
+			}
 			if (list[i].innerHTML == color[j][0]) {
 				list[i].style.color = color[j][1];
+				list[i].parentNode.style.borderColor = color[j][1];
 				break;
 			}
 			else {
 				list[i].style.color = "#3c3a32";
+				list[i].parentNode.style.borderColor = "#3c3a32"
 			}
 		}
 	}
@@ -138,24 +149,20 @@ function checkKey(e) {
 			var index = 4*pos[0] + pos[1]
 			var rand = Math.floor((Math.random() * 2) + 1) * 2;
 
-	        if (change == 1) {
+			if (change == 1) {
 	            list[index].style.opacity = 0;
 	    		list[index].innerHTML = rand;
 	    		board[pos[0]][pos[1]] = rand;
 	    
-	    		$( list[index] ).velocity({
+	    		$( list[index] ).animate({
 	    		    opacity: 1,
 	    		}, 500);
 	        }
-	        
-	        setTimeout(function(){ 
-	        	setBoard();
-		        checkWon();
-		        checkLost();
-		        setColor();
-	        }, 100);
-
-	        
+	     
+			setBoard();
+			checkWon();
+			checkLost();
+			setColor();
 	    }
     }
 }
@@ -235,8 +242,8 @@ function glow(row, col) {
 	var list = document.getElementsByClassName("numbers");
 	var index = 4*row + col
 	addScore(board[row][col]);
-	list[index].innerHTML = board[row][col];
 
+	console.log(list[index])
 	$(list[index]).css('transform', 'scale(2)');
 	setTimeout(function() { $(list[index]).css('transform', 'scale(1)') }, 250);
 }
@@ -258,7 +265,6 @@ function downPhase1() {
 					change = 1;
 					board[row+1][col] = board[row][col];
 					board[row][col] = -1;
-					move(row, col, 1)
 				}
 			}
 		}
@@ -278,7 +284,6 @@ function downPhase2() {
 					change = 1;
 					board[row+1][col] = board[row+1][col]*2;
 					board[row][col] = -1;
-					move(row, col, 1);
 					glow(row+1, col)
 				}
 			}
@@ -302,38 +307,6 @@ function isDownAble(row, col) {
 	return 0;
 }
 
-// type 1 : up
-// type 2 : down
-// type 3 : left
-// type 4 : right
-function move(row, col, type) {
-	var from = document.getElementsByClassName("content")[row*4 + col];
-
-    if (type == 1) {
-        $(from).velocity({top: "+="+$(from).height()}, 100, 'linear', function() {
-            $(from).velocity({top: "-="+$(from).height()}, 0, 'linear');
-        });
-    }	
-    else if (type == 2) {
-        $(from).velocity({top: "-="+$(from).height()}, 100, 'linear', function() {
-            $(from).velocity({top: "+="+$(from).height()}, 0, 'linear');
-        });
-    }
-    else if (type == 3) {
-       $(from).velocity({left: "-="+$(from).height()}, 100, 'linear', function() {
-            $(from).velocity({left: "+="+$(from).height()}, 0, 'linear');
-        });
-    }
-    else if (type == 4) {
-       $(from).velocity({left: "+="+$(from).height()}, 100, 'linear', function() {
-            $(from).velocity({left: "-="+$(from).height()}, 0, 'linear');
-        });
-    }
-    else {
-        console.log("move(): wrong type")
-    }
-}
-
 function up() {
     var change = 0;
 	change |= upPhase1();
@@ -351,7 +324,6 @@ function upPhase1() {
 					change = 1;
 					board[row-1][col] = board[row][col];
 					board[row][col] = -1;
-					move(row, col, 2)
 				}
 			}
 		}
@@ -371,7 +343,6 @@ function upPhase2() {
 					change = 1;
 					board[row-1][col] = board[row-1][col]*2;
 					board[row][col] = -1;
-					move(row, col, 2)
 					glow(row-1, col)
 				}
 			}
@@ -412,7 +383,6 @@ function leftPhase1() {
 					change = 1;
 					board[row][col-1] = board[row][col];
 					board[row][col] = -1;
-					move(row, col, 3)
 				}
 			}
 		}
@@ -432,7 +402,6 @@ function leftPhase2() {
 					change = 1;
 					board[row][col-1] = board[row][col-1]*2;
 					board[row][col] = -1;
-					move(row, col, 3)
 					glow(row, col-1)
 				}
 			}
@@ -473,7 +442,6 @@ function rightPhase1() {
 					change = 1;
 					board[row][col+1] = board[row][col];
 					board[row][col] = -1;
-					move(row, col, 4)
 				}
 			}
 		}
@@ -493,7 +461,6 @@ function rightPhase2() {
 					change = 1;
 					board[row][col+1] = board[row][col+1]*2;
 					board[row][col] = -1;
-					move(row, col, 4)
 					glow(row, col+1)
 				}
 			}

@@ -65,29 +65,6 @@ function highScoreUser(user, score) {
 /**************** Prototype ****************/
 
 /**************** Menu Functions ****************/
-var backgroundSoundOn = true;
-function DisableSound() {
-	if (backgroundSoundOn) {
-		createjs.Sound.stop("backgroundSound", {interrupt: createjs.Sound.INTERRUPT_ANY, loop:-1});
-		backgroundSoundOn = false;
-		
-		var sound = "Sound";
-		var soundStrike = sound.strike();
-		var soundButton = document.getElementById("SoundToggleButton");
-		
-		soundButton.innerHTML = soundStrike;
-	}
-	else {
-		createjs.Sound.play("backgroundSound", {interrupt: createjs.Sound.INTERRUPT_ANY, loop:-1});
-		backgroundSoundOn = true;
-		
-		var sound = "Sound";
-		var soundButton = document.getElementById("SoundToggleButton");
-		
-		soundButton.innerHTML = sound;
-	}
-}
-
 var soundEffectOn = true;
 function DisableSoundEffect() {
 	if (soundEffectOn) {
@@ -113,15 +90,12 @@ var queue;
 function LoadStart() {
 	queue = new createjs.LoadQueue(true);
 	queue.installPlugin(createjs.Sound);
-	queue.loadFile({id:"backgroundSound", src:"Robotic City.ogg"});
 	queue.loadFile({id:"explosion", src:"Explode.ogg"});
 	queue.on("complete", LoadIntroCanvas, this);
 }
 
 var container;
-function LoadIntroCanvas() {
-	createjs.Sound.play("backgroundSound", {interrupt: createjs.Sound.INTERRUPT_ANY, loop:-1});
-	
+function LoadIntroCanvas() {	
 	var startOption = document.getElementById("startOptions");
 	startOption.style.display = "inline-block";
 	
@@ -129,23 +103,15 @@ function LoadIntroCanvas() {
 	introStage.canvas.width = 770;
 	introStage.canvas.height = 522;
 	
-	var player = new createjs.Shape();
-	player.graphics.setStrokeStyle(4);
-	player.graphics.beginStroke("Turquoise").drawPolyStar(0, 0, 15, 3, 0, -90);
-	
-	var enemy = new createjs.Shape();
-	enemy.graphics.setStrokeStyle(4);
-	enemy.graphics.beginStroke("DeepSkyBlue").drawPolyStar(0, 0, 15, 5, 0, -90);
-	
 	var highScore = "---    ---\n---    ---\n---    ---\n---    ---\n---    ---\n";
 	var i,j = 0;
 	
-	var highScoreSign = new createjs.Text("High Score", "100 36px Lato", "#fff");
+	var highScoreSign = new createjs.Text("High Score", "100 36px Oswald", "#fff");
 	highScoreSign.textAlign = "center";
 	
-	highScoreTextDevice = new createjs.Text(highScore, "100 24px Lato", "#fff");
+	highScoreTextDevice = new createjs.Text(highScore, "100 24px Oswald", "#fff");
 	highScoreTextDevice.textAlign = "center";
-	highScoreTextDevice.y = 50;
+	highScoreTextDevice.y = 70;
 	
 	container = new createjs.Container();
 	container.addChild(highScoreSign, highScoreTextDevice);
@@ -338,9 +304,9 @@ function IncreaseXP(xp) {
 }
 
 function DecreaseLife() {
-	var heart = document.getElementsByClassName("glyphicon-heart");
+	var heart = document.getElementsByClassName("fa-heart");
 	if (heart.length != 0) {
-		heart[0].className = "glyphicon glyphicon-heart-empty";
+		heart[0].className = "fa fa-heart-o";
 	}
 	else {
 		console.log("you lose!");
@@ -403,7 +369,7 @@ function PlayerBlast() {
 			if (level == 0) {
 				/*********** set-up player blast ***********/
 				var blast = new createjs.Shape();
-				blast.graphics.beginFill("PaleTurquoise").drawCircle(0, 0, 2);
+				blast.graphics.beginFill("#3a87ad").drawCircle(0, 0, 2);
 
 				blast.x = player.x;
 				blast.y = player.y;
@@ -420,7 +386,7 @@ function PlayerBlast() {
 			if (level >= 1) {
 				/*********** set-up player blast ***********/
 				var blast = new createjs.Shape();
-				blast.graphics.beginFill("PaleTurquoise").drawCircle(0, 0, 2);
+				blast.graphics.beginFill("#3a87ad").drawCircle(0, 0, 2);
 				
 				var blast2 = blast.clone(true);
 				var blast3 = blast.clone(true);
@@ -462,8 +428,7 @@ function EnemyBlast() {
 		
 		/*********** create new blast ***********/
 		var blast = new createjs.Shape();
-		blast.graphics.beginFill("LightYellow").drawCircle(0, 0, 2);
-		blast.cache(-2,-2,4,4);
+		blast.graphics.beginFill("#b94a48").drawCircle(0, 0, 2);
 
 		blast.x = enemyOnScreen[i].enemy.x;
 		blast.y = enemyOnScreen[i].enemy.y;
@@ -553,7 +518,7 @@ function blastMovement() {
 						createjs.Sound.play("explosion", {volume:.1});
 					}
 					
-					IncreaseXP(1);
+					IncreaseXP(10);
 					
 					var enemyType = enemyOnScreen[j].type;
 							
@@ -568,17 +533,13 @@ function blastMovement() {
 					if (typeof imageArray[1] === 'undefined') {
 						var enemy = new createjs.Shape();
 						enemy.graphics.setStrokeStyle(4);
-						enemy.graphics.beginStroke("DeepSkyBlue").drawPolyStar(0, 0, 15, 5, 0, -90);
-						
-						enemy.cache(-19,-19,38,38);
+						enemy.graphics.beginStroke("#b94a48").beginFill("#555").drawPolyStar(0, 0, 15, 5, 0, -90);
 					}
 					else {
 						var enemy = new createjs.Bitmap(imageArray[1]);
 						enemy.regX = imageArray[1].naturalWidth/2;
 						enemy.regY = imageArray[1].naturalHeight/2;
-						
-						enemy.cache(0,0,imageArray[1].naturalWidth,imageArray[1].naturalHeight);
-						
+												
 						if (imageArray[1].naturalWidth >= 30 && imageArray[1].naturalHeight >= 0) {
 							var ratio = imageArray[1].width/imageArray[1].height;
 							if (ratio >= 0) {
@@ -762,9 +723,9 @@ function Play() {
 	this.document.onmousedown = function() { pressedKeys[4] = true; };
 	this.document.onmouseup = function() { pressedKeys[4] = false; };
 	
-	var emptyHeart = document.getElementsByClassName("glyphicon-heart-empty");
+	var emptyHeart = document.getElementsByClassName("fa-heart-o");
 	while (emptyHeart.length > 0) {
-		emptyHeart[0].className = "glyphicon glyphicon-heart";
+		emptyHeart[0].className = "fa fa-heart";
 	}
 	XP = 0;
 	document.getElementById("XPprogress").style.width = XP + "%";
@@ -773,16 +734,14 @@ function Play() {
 	
 	if (typeof imageArray[2] !== 'undefined') {
 		var background = new createjs.Bitmap(imageArray[2]);
-		background.cache(0,0,imageArray[2].naturalWidth, imageArray[2].naturalHeight);
 		stage.addChild(background);
 	}
 
 	if (typeof imageArray[0] === 'undefined') {
 		player = new createjs.Shape();
 		player.graphics.setStrokeStyle(4);
-		player.graphics.beginStroke("Turquoise").drawPolyStar(0, 0, 15, 3, 0, -90);
+		player.graphics.beginStroke("#3a87ad").beginFill("white").drawPolyStar(0, 0, 15, 3, 0, -90);
 		
-		player.cache(-19,-19,38,38);
 		player.snapToPixel = true;
 	}
 	else {
@@ -790,7 +749,6 @@ function Play() {
 		player.regX = imageArray[0].naturalWidth/2;
 		player.regY = imageArray[0].naturalHeight/2;
 		
-		player.cache(0,0,imageArray[0].naturalWidth,imageArray[0].naturalHeight);
 		player.snapToPixel = true;
 		
 		if (imageArray[0].naturalWidth >= 30 && imageArray[0].naturalHeight >= 0) {
@@ -813,9 +771,8 @@ function Play() {
 	if (typeof imageArray[1] === 'undefined') {
 		enemy = new createjs.Shape();
 		enemy.graphics.setStrokeStyle(4);
-		enemy.graphics.beginStroke("DeepSkyBlue").drawPolyStar(0, 0, 15, 5, 0, -90);
+		enemy.graphics.beginStroke("#b94a48").beginFill("#555").drawPolyStar(0, 0, 15, 5, 0, -90);
 		
-		enemy.cache(-19,-19,38,38);
 		enemy.snapToPixel = true;
 	}
 	else {
@@ -823,7 +780,6 @@ function Play() {
 		enemy.regX = imageArray[1].naturalWidth/2;
 		enemy.regY = imageArray[1].naturalHeight/2;
 		
-		enemy.cache(0,0,imageArray[1].naturalWidth,imageArray[1].naturalHeight);
 		enemy.snapToPixel = true;
 		
 		if (imageArray[1].naturalWidth >= 30 && imageArray[1].naturalHeight >= 0) {

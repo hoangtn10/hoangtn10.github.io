@@ -1,33 +1,9 @@
-.center, h1, h3, h4, p, a {
+.center, h1 {
 	text-align: center;
 	margin: 0 auto;
-	font-family: "League-Gothic", Courier;
-	color: white;
 }
-div, pre {
-	font-family: "League-Gothic", Courier;
-}
-pre {
-	color: white;
-	background-color: #060606;
-}
-a:hover, a:visited, a:link, a:active {
-    text-decoration: none;
-}
-.img:hover  {
-	animation: imgHoverOn .5s forwards;
-	-ms-animation: imgHoverOn .5s forwards;
-	-webkit-animation: imgHoverOn .5s forwards;
-	z-index: 2147483647;
-}
-@-moz-keyframes imgHoverOn{
-	100% { -webkit-transform: scale(1.3); }
-}
-@-webkit-keyframes imgHoverOn{
-	100% { -webkit-transform: scale(1.3); }
-}
-@-ms-keyframes imgHoverOn{
-	100% { -webkit-transform: scale(1.3); }
+.pad1 {
+	padding: 5px;
 }
 .slidingVertical {
 	animation: topToBottom .5s forwards;
@@ -46,31 +22,6 @@ a:hover, a:visited, a:link, a:active {
 	-ms-animation-delay: .2s;
 	-webkit-animation-delay: .2s;
 }
-.delay3 {
-	animation-delay: .3s;
-	-ms-animation-delay: .3s;
-	-webkit-animation-delay: .3s;
-}
-.delay4 {
-	animation-delay: .4s;
-	-ms-animation-delay: .4s;
-	-webkit-animation-delay: .4s;
-}
-.delay5 {
-	animation-delay: .5s;
-	-ms-animation-delay: .5s;
-	-webkit-animation-delay: .5s;
-}
-.delay6 {
-	animation-delay: .6s;
-	-ms-animation-delay: .6s;
-	-webkit-animation-delay: .6s;
-}
-.delay7 {
-	animation-delay: .7s;
-	-ms-animation-delay: .7s;
-	-webkit-animation-delay: .7s;
-}
 @-moz-keyframes topToBottom{
 	0% { opacity: 0; }
 	50% { opacity: 0; -webkit-transform: translateY(-25px); }
@@ -85,4 +36,37 @@ a:hover, a:visited, a:link, a:active {
 	0% { opacity: 0; }
 	50% { opacity: 0; -webkit-transform: translateY(-25px); }
 	100% { opacity: 1; -webkit-transform: translateY(0px); }
+}
+.just > div {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    width: 16.66%;
+    text-align: center;
+}
+a:hover, a:visited, a:link, a:active {
+    text-decoration: none;
+}
+@-moz-keyframes imgHoverOn{
+	100% { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes imgHoverOn{
+	100% { -webkit-transform: rotate(360deg); }
+}
+@-ms-keyframes imgHoverOn{
+	100% { -webkit-transform: rotate(360deg); }
+}
+.spin:hover {
+	animation: spinHoverOn .5s forwards;
+	-ms-animation: spinHoverOn .5s forwards;
+	-webkit-animation: spinHoverOn .5s forwards;
+}
+@-moz-keyframes spinHoverOn{
+	100% { -webkit-transform: scale(-1,1); }
+}
+@-webkit-keyframes spinHoverOn{
+	100% { -webkit-transform: scale(0,1) }
+}
+@-ms-keyframes spinHoverOn{
+	100% { -webkit-transform: scale(0,1) }
 }

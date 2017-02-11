@@ -1,90 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>Hoang Nguyen</title>
-        <meta charset="utf-8" />
-        <meta name="theme-color" content="#999999">
-        <link rel='shortcut icon' href='2048.png' type='image/x-icon'/ >
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cyborg/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <link rel="shortcut icon" href="4.png" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.4.0/velocity.min.js"></script>
+        <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+
+        <link href="https://bootswatch.com/2/superhero/bootstrap.min.css" rel="stylesheet">
+        <link href="https://bootswatch.com/2/superhero/../default/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="https://bootswatch.com/2/superhero/../css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://bootswatch.com/2/superhero/../css/bootswatch.css" rel="stylesheet">
+        
         <link rel="stylesheet" href="Style.css" />
-        <script src="Web.js"></script>
+        <link rel="shortcut icon" href="logo.png" />
     </head>
-    <body onload="load()">
-        <div class="container center slidingVertical">
-            <div class="col-sm-6 col-sm-offset-3">
+    <body>
+        <div class="container slidingVertical">
+            <div class="span4 center"></div>
+            <div class="span4 center">
                 <h1> Hoang Nguyen </h1>
-                <div>
-                    "Computer Scientist"
-                    <br><br>
-                    <div>
-                        <a href="Hoang Nguyen Resume.pdf" class="btn btn-info">Resume</a>
-                    </div>
+                "Computer Scientist"
+                <div class=pad1>
+                    <a href="Hoang Nguyen Resume.pdf" class="btn btn-danger">Resume</a>
                 </div>
             </div>
-	</div>
+            <div class="span4 center"></div>
+    	</div>
         <br>
-        <div class="container center slidingVertical delay1">
-            <div class="col-sm-4">
-                <h4>2048</h4>
-                <a href="2048/2048.html" target="_blank">
-                    <img src="1.svg" class="img" alt="Sudoku" width=60%/>
-                </a>
-                <br>
+        <div class="container slidingVertical delay1">
+            <div class="span4 center">
+                <span class="badge badge-important">2048</span>
+                <div class="center card">
+                    <div class="front">
+                        <a href="2048/2048.html" target="_blank">
+                            <img src="2048.svg" class="img" alt="2048" width=200px/>
+                        </a>
+                    </div> 
+                    <div class="back">
+                        <a href="2048/2048.html" target="_blank">
+                            <img src="2048.svg" class="img" alt="2048" width=200px/>
+                        </a>
+                    </div> 
+                </div>
                 Javascript: slide (up|down|left|right).
             </div>
-            <div class="col-sm-4">
-                <h4>Poligon Wars</h4>
-                <a href="PolygonWar/PolygonWar.html" target="_blank">
-                    <img src="2.svg" class="img" alt="Sudoku" width=60%/>
-                </a>
-                <br>
+            <div class="span4 center">
+                <span class="badge badge-important">Poligon Wars</span>
+                <div class="center card">
+                    <div class="front">
+                        <a href="PolygonWar/PolygonWar.html" target="_blank">
+                            <img src="PolygonWar.svg" class="img" alt="PolygonWar" width=200px/>
+                        </a>
+                    </div> 
+                    <div class="back">
+                        <a href="PoligonWars/PoligonWars.html" target="_blank">
+                            <img src="PolygonWar.svg" class="img" alt="PolygonWar" width=200px/>
+                        </a>
+                    </div> 
+                </div>
                 CreateJS libraries: heroic triangle vs. heinous pentagons.
             </div>
-            <div class="col-sm-4">
-                <h4>Sudoku</h4> 
-                <a href="Sudoku/Sudoku.html" target="_blank">
-                    <img src="3.svg" class="img" alt="Sudoku" width=60%/>
-                </a>
+            <div class="span4 center">
+                <span class="badge badge-important">Sudoku</span>
                 <br>
+                <div class="center card">
+                    <div class="front">
+                        <a href="Sudoku/Sudoku.html" target="_blank">
+                            <img src="Sudoku.svg" class="img" alt="Sudoku" width=200px/>
+                        </a>
+                    </div> 
+                    <div class="back">
+                        <a href="Sudoku/Sudoku.html" target="_blank">
+                            <img src="Sudoku.svg" class="img" alt="Sudoku" width=200px/>
+                        </a>
+                    </div> 
+                </div>
                 Backtracking CSP Algorithm. Sudoku.
             </div>
         </div>
         <br>
         <div class="container slidingVertical delay2">
-	        <div class="col-sm-4 col-sm-offset-4">
-<pre id="asciimator"></pre>
-	        </div>
-        </div>
-        <br>
-        <div class="container center slidingVertical delay3">
-            <div class="col-sm-8 col-sm-offset-2">
-                <div class="well">
-                    <div>
-                        nguy1931@umn.edu - 651-354-8107
-                    </div>
-                    <br>
-                    <form class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                <input id="subj" name="subject" type="text" class="form-control" placeholder="Subject" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                <textarea id="body" name="body" class="form-control" rows="3" placeholder="Body"></textarea>
-                            </div>
-                        </div>
-                        <button type='button' class="btn btn-warning" onclick="del()" style="float: left;">Delete!</button>
-                        <button type='button' class="btn btn-success" onclick="sen()" style="float: right;">Send!</button>
-                    </form>
-                    <br><br>
+            <div class="span4 center"></div>
+            <div class="span4 center just">
+                <div class="card"> 
+                    <div class="front">H</div> 
+                    <div class="back">H</div> 
+                </div>
+                <div class="card"> 
+                    <div class="front">O</div>
+                    <div class="back">O</div> 
+                </div>
+                <div class="card"> 
+                    <div class="front">A</div> 
+                    <div class="back">A</div> 
+                </div>
+                <div class="card"> 
+                    <div class="front">N</div> 
+                    <div class="back">N</div> 
+                </div>
+                <div class="card"> 
+                    <div class="front">G</div> 
+                    <div class="back">G</div> 
                 </div>
             </div>
         </div>
+        <br>
+        <div class="container slidingVertical delay2">
+            <div class="span4 center"></div>
+            <div class="span4 center">
+                <span class="badge">nguy1931@umn.edu - 651-354-8107</span>
+            </div>
+        </div>
+        
+        <script>
+            $(function($) {
+                $(".card").flip({
+                    axis: 'y',
+                    trigger: 'hover'
+                });
+            });
+        </script>
     </body>
 </html>

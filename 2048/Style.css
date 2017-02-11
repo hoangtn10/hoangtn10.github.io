@@ -1,15 +1,9 @@
-.center, h1, h3, h4, p, a {
+.center, h1 {
 	text-align: center;
 	margin: 0 auto;
-	font-family: "League-Gothic", Courier;
-	color: white;
-}
-div, pre {
-	font-family: "League-Gothic", Courier;
 }
 pre {
 	color: white;
-	background-color: #060606;
 }
 a:hover, a:visited, a:link, a:active {
     text-decoration: none;
@@ -46,31 +40,6 @@ a:hover, a:visited, a:link, a:active {
 	-ms-animation-delay: .2s;
 	-webkit-animation-delay: .2s;
 }
-.delay3 {
-	animation-delay: .3s;
-	-ms-animation-delay: .3s;
-	-webkit-animation-delay: .3s;
-}
-.delay4 {
-	animation-delay: .4s;
-	-ms-animation-delay: .4s;
-	-webkit-animation-delay: .4s;
-}
-.delay5 {
-	animation-delay: .5s;
-	-ms-animation-delay: .5s;
-	-webkit-animation-delay: .5s;
-}
-.delay6 {
-	animation-delay: .6s;
-	-ms-animation-delay: .6s;
-	-webkit-animation-delay: .6s;
-}
-.delay7 {
-	animation-delay: .7s;
-	-ms-animation-delay: .7s;
-	-webkit-animation-delay: .7s;
-}
 @-moz-keyframes topToBottom{
 	0% { opacity: 0; }
 	50% { opacity: 0; -webkit-transform: translateY(-25px); }
@@ -92,8 +61,11 @@ a:hover, a:visited, a:link, a:active {
     width: 24%;
     padding-bottom : 24%; /* = width for a 1:1 aspect ratio */
     margin:.5%;
-    background-color:#1E1E1E;
+    background-color:#3f4956;
     overflow:hidden;
+}
+.table-cell {
+	border-style: dashed;
 }
 .content {
     position:absolute;
@@ -111,9 +83,6 @@ a:hover, a:visited, a:link, a:active {
     vertical-align:middle;
     text-align: center;
 	margin: 0 auto;
-}
-.well {
-	padding-bottom: 0px;
 }
 /* customize */
 div {
