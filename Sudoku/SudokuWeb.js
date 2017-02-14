@@ -109,7 +109,6 @@ function replaceCln(sibling) {
         var sib                     = sibling[index]
         sib.style.backgroundColor   = clnList[i][1];
         sib.innerHTML               = clnList[i][2];
-        console.log(clnList[i][1])
         if (clnList[i][1] != "rgb(52, 61, 71)" && clnList[i][1] != "rgb(72, 72, 72)") {
             sib.onclick             = cellClick;
         }
