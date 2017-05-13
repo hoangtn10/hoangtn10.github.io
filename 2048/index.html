@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>2048</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.4.0/velocity.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/lumen/bootstrap.min.css" />
+
+        <script src="index.js"></script>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body onload="load()">
+        <div class="container center slidingVertical">
+            <div class="col-sm-4 center"></div>
+            <div class="col-sm-4 center">
+                <h1>2048</h1>
+                <button class="btn btn-default btn-xs" id="score">Score : <span id="scoreValue">0</span></button>
+                <button class="btn btn-default btn-xs" id="best">Best : <span id="bestValue">0</span></button>
+                <br><br>
+            </div>
+        </div>
+       <div id="fixed" class="container center slidingVertical delay1">
+            <div class="col-sm-4 center"></div>
+            <div class="col-sm-4 center controller">
+                <div class="square" id="cell"></div>
+            </div>
+       </div>
+        <div class="container">
+          <div class="col-sm-4 center"></div>
+          <div class="col-sm-4 center slidingVertical delay2">
+            <a onclick="newGame()" class="btn btn-default"> -- New Game -- </a>
+          </div>
+        </div>
+    </body>
+</html>

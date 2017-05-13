@@ -1,10 +1,14 @@
+/*******************/
+/**  SUDOKU WEB   **/
+/*******************/
+
 var clnList = [];
 var clnCell = null;
 var clnColor = "";
 
 String.prototype.replaceAt = function(index, character) {
     return this.substr(0, index) + character + this.substr(index+character.length);
-}
+};
 function load() {
     var cell                = document.getElementById("cell");
     var parentCell          = cell.parentNode;
@@ -24,6 +28,10 @@ function load() {
     }
 
     medBtn();
+    
+    $('.item-modal').click(function(e) {
+      e.stopPropagation();
+    });
 }
 function getColor(i, type) {
     if ((i >= 3 && i < 6)   || (i >= 12 && i < 15) ||
@@ -32,13 +40,13 @@ function getColor(i, type) {
         (i >= 51 && i < 54) || (i >= 57 && i < 60) ||
         (i >= 66 && i < 69) || (i >= 75 && i < 78)) {
         if (type) {
-            return "#484848";
+            return "#535353";
         }
-        return "#555555";
+        return "#7a7a7a";
     }
     else {
         if (type) {
-            return "#343d47"
+            return "#343d47";
         }
         return "#3f4956";
     }
@@ -49,14 +57,14 @@ function cellClick() {
     var sibling     = parentCell.childNodes;
     var length      = clnList.length;
     
-    if (clnCell != null) {
+    if (clnCell !== null) {
         replaceCln(sibling);
         clnCell.style.backgroundColor   = clnColor;
         clnList                         = [];
     }
     if (cell === clnCell) {
-        clnCell = null
-        return
+        clnCell = null;
+        return;
     }
 
     clnColor                    = cell.style.backgroundColor;
@@ -65,7 +73,7 @@ function cellClick() {
     
     var cellIndex = Math.ceil((Array.prototype.indexOf.call(sibling, cell)+1)/9)*9;
     if (cellIndex == 81) {
-        cellIndex = 63
+        cellIndex = 63;
     }
     for (i = 0; i < 9; i++) {
         var index   = cellIndex+i;
@@ -84,16 +92,16 @@ function cellClick() {
                 else {
                     cell.innerHTML = cln.innerHTML;
                 }
-                if (clnList.length == 0) {
+                if (clnList.length === 0) {
                     return;
                 }
                 replaceCln(sibling);
                 clnList = [];
-                if (clnCell != null) {
+                if (clnCell !== null) {
                     clnCell.style.backgroundColor   = clnColor;
                     clnCell                         = null;
                 }
-            }
+            };
         }(cln, cell, sibling);
     }
 }
@@ -106,7 +114,7 @@ function setCellValue(cell, value) {
 function replaceCln(sibling) {
     for (var i = 0; i < 9; i++) {
         var index                   = clnList[i][0];
-        var sib                     = sibling[index]
+        var sib                     = sibling[index];
         sib.style.backgroundColor   = clnList[i][1];
         sib.innerHTML               = clnList[i][2];
         if (clnList[i][1] != "rgb(52, 61, 71)" && clnList[i][1] != "rgb(72, 72, 72)") {
@@ -131,11 +139,13 @@ function setPuzzle(puzzle, type) {
             list[i].innerHTML = puzzle.charAt(i);
             list[i].parentNode.parentNode.parentNode.onclick = "";
             list[i].parentNode.parentNode.parentNode.style.backgroundColor = getColor(i,1);
+            list[i].parentNode.parentNode.parentNode.className = "square";
         }
         else {
             list[i].innerHTML = "";
             list[i].parentNode.parentNode.parentNode.onclick = cellClick;
             list[i].parentNode.parentNode.parentNode.style.backgroundColor = getColor(i,0);
+            list[i].parentNode.parentNode.parentNode.className = "square shine";
         }
     }
 }
@@ -216,11 +226,206 @@ function blankBtn() {
 function checkBtn() {
     var puzzle = solve(getPuzzle());
     if (puzzle.length == 81) {
-       	var status = "Everything looks good!";
+      $('#success').show(250);
+      $('#failure').hide(250);
+
     }
     else {
-        var status = "There's a misplaced cell!";
+      $('#failure').show(250);
+      $('#success').hide(250);
     }
-    document.getElementById("status").innerHTML = status;
-    $('.modal').modal('toggle');
 }
+
+/*******************/
+/**  SUDOKU WEB   **/
+/*******************/
+
+/*******************/
+/** SUDOKU SOLVER **/
+/*******************/
+
+var varList = [];
+var conList = [];
+var worklist = [];
+for (var i = 0; i < 81; i++) { 
+  varList.push({ domain: [1,2,3,4,5,6,7,8,9], neighbors: [] });
+}
+
+function diff(i1, i2) {
+  list = [];
+  for (var i = 0; i < varList[i1].domain.length; i++) {
+    sat = 0;
+    for (var j = 0; j < varList[i2].domain.length; j++) {
+      if (varList[i1].domain[i] != varList[i2].domain[j]) {
+        sat = 1;
+      }
+    }
+    if (sat == 0) {
+      varList[i1].domain.splice(i, 1);
+      for (var k = 0; k < varList[i1].neighbors.length; k++) {
+        worklist.push(varList[i1].neighbors[k]);
+      }
+    }
+  }
+}
+
+function alldiff(list) {
+  for (var i = 0; i < list.length; i++) {
+    for (j = 0; j < list.length; j++) {
+      if ( i != j ) {
+        diff(list[i], list[j]);
+      }
+    }
+  }
+}
+
+function makeConstraints() {
+  for (var i = 0; i < 9; i++) {
+    list = []
+    for (var j = i; j < 81; j += 9) {
+      list.push(j);
+    }
+    conList.push(list);
+  }
+  for (var i = 0; i < 81; i += 9) {
+    list = [];
+    for (var j = i; j < i + 9; j++) {
+      list.push(j);
+    }
+    conList.push(list);
+  }
+  for (var i = 0; i <= 81-21; i += 3) {
+    list = [];
+    if (i == 9 || i == 36) {
+      i += 18;
+    }
+    list.push(i);
+    list.push(i+1);
+    list.push(i+2);
+    list.push(i+9);
+    list.push(i+10);
+    list.push(i+11);
+    list.push(i+18);
+    list.push(i+19);
+    list.push(i+20);
+    conList.push(list);
+  }
+}
+
+function findNeighbors() {
+  for (var i = 0; i < conList.length; i++) {
+    for (var j = 0; j < conList[i].length; j++) {
+      varList[conList[i][j]].neighbors.push(conList[i]);
+    }
+  }
+}
+
+function MRV() {
+  var index = -1;
+  var min = 10;
+  for (var i = 0; i < 81; i++) {
+    if (varList[i].domain.length > 1 && varList[i].domain.length < min) {
+      index = i;
+      min = varList[i].domain.length;
+    }
+  }
+  return index;
+}
+
+function DH() {
+  worklist = conList.slice();
+  while(worklist.length > 0) {
+    alldiff(worklist[0]);
+    worklist.splice(0,1);
+  }
+  for (var i = 0; i < 81; i++) {
+    if (varList[i].domain.length < 1) {
+      return -1;
+    }
+  }
+  return 0;
+}
+
+function copyDomain() {
+  var copy = [];
+  for (var i = 0; i < 81; i++) {
+    copy.push(varList[i].domain.slice());
+  }
+  return copy;
+}
+
+function replaceDomain(copy) {
+  for (var i = 0; i < 81; i++) {
+    varList[i].domain = copy[i];
+  }
+}
+
+function backtracking() {
+  var index = MRV();
+  if (index == -1) {
+    return 0;
+  }
+  else {
+    var domain = varList[index].domain.slice();
+    for (var i = 0; i < domain.length; i++) {
+      varList[index].domain = [domain[i]];
+      var copy = copyDomain();
+      if (DH() == 0) {
+        if (backtracking() == 0) {
+          return 0;
+        }
+      }
+      replaceDomain(copy);
+    }
+  }
+}
+
+makeConstraints();
+findNeighbors();
+
+function solve(puzzle) {
+  if (puzzle.length != 81) {
+    console.log("invalid board length");
+    return -1;
+  }
+  for (var i = 0; i < 81; i++) { 
+    varList[i].domain = [1,2,3,4,5,6,7,8,9];
+  }
+  for (var i = 0; i < 81; i++) {
+    if (isNaN(parseInt(puzzle.charAt(i)))) {
+      console.log("invalid board element");
+      return -2;
+    }
+    if (puzzle.charAt(i) != "0") {
+      varList[i].domain = [(parseInt(puzzle.charAt(i)))];
+    }
+  }
+  var solvedPuzzle = "";
+  DH();
+  backtracking();
+  print();
+  for (var i = 0; i < 81; i++) {
+    if (varList[i].domain.length == 0) {
+      console.log("invalid board logic");
+      return -3;
+    }
+    solvedPuzzle += varList[i].domain[0];
+  }
+  return solvedPuzzle;
+}
+
+function print() {  
+  string = "";
+  for (var i = 0; i < 81; i += 9) {
+    string += "|";
+    for (var j = i; j < i + 9; j++) {
+      string += varList[j].domain + "|";
+    }
+    string += "\n";
+  }
+  console.log(string);
+}
+
+/*******************/
+/** SUDOKU SOLVER **/
+/*******************/
