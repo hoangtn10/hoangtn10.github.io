@@ -18,7 +18,7 @@ var color = [
 	[2048, "#edc22e"],
 ]
 
-var NONE=-1, UP=0, DOWN=1, LEFT=2, RIGHT=3, POP=4;
+var NONE=-1, UP=0, DOWN=1, LEFT=2, RIGHT=3;
 var NOPOP=0, POP=1;
 var VALUE=0, CELL=1, ISPOP=2;
 
