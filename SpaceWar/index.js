@@ -52,7 +52,7 @@ function createEnemies() {
   var weapon = createWeapon(3, 600, 30, 1000);
 
   game.add.tween(enemy).to({
-    y: 700
+    y: 900
   }, speed, Phaser.Easing.Cubic.Out).start();
   weapon.trackSprite(enemy, 0, 0, true);
 
