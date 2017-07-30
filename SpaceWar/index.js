@@ -6,7 +6,7 @@ var game = new Phaser.Game(1000, 800, Phaser.CANVAS, 'game', {
 });
 
 function preload() {
-  game.load.image('bullet', 'PNG/lasers/laserRed01.png');
+  game.load.image('bullet', 'PNG/Lasers/laserRed01.png');
   game.load.image('ship', 'PNG/playerShip1_red.png');
   game.load.image('live', 'PNG/UI/playerLife1_red.png');
   game.load.image('enemy', 'PNG/Enemies/enemyBlack2.png');
