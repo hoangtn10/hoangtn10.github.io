@@ -31,3 +31,11 @@ h1 {
 #best {
   float: right;
 }
+td {
+  background-color: #eeeeee;
+  color: #555555;
+  font-weight: bold;
+  height: 2em;
+  line-height: 2em;
+  font-size: 2em;
+}

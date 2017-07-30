@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1000, 800, Phaser.CANVAS, 'phaser-example', {
+var game = new Phaser.Game(1000, 800, Phaser.CANVAS, 'game', {
   preload: preload,
   create: create,
   update: update,
@@ -6,8 +6,6 @@ var game = new Phaser.Game(1000, 800, Phaser.CANVAS, 'phaser-example', {
 });
 
 function preload() {
-  game.load.baseURL = 'http://127.0.0.1:8000/';
-
   game.load.image('bullet', 'PNG/lasers/laserRed01.png');
   game.load.image('ship', 'PNG/playerShip1_red.png');
   game.load.image('live', 'PNG/UI/playerLife1_red.png');
