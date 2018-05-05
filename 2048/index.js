@@ -1,52 +1,45 @@
 var board = [
-  [-1, -1, -1, -1],
-  [-1, -1, -1, -1],
-  [-1, -1, -1, -1],
-  [-1, -1, -1, -1]
+[-1, -1, -1, -1],
+[-1, -1, -1, -1],
+[-1, -1, -1, -1],
+[-1, -1, -1, -1]
 ];
 
 var color = [
-  [4, "#ede0c8"],
-  [8, "#f2b179"],
-  [16, "#f59563"],
-  [32, "#f67c5f"],
-  [64, "#f65e3b"],
-  [128, "#edcf72"],
-  [256, "#edcc61"],
-  [512, "#edc850"],
-  [1024, "#edc53f"],
-  [2048, "#edc22e"],
+[4, "#ede0c8"],
+[8, "#f2b179"],
+[16, "#f59563"],
+[32, "#f67c5f"],
+[64, "#f65e3b"],
+[128, "#edcf72"],
+[256, "#edcc61"],
+[512, "#edc850"],
+[1024, "#edc53f"],
+[2048, "#edc22e"],
 ]
 
 var NONE = -1,
-  UP = 0,
-  DOWN = 1,
-  LEFT = 2,
-  RIGHT = 3;
+UP = 0,
+DOWN = 1,
+LEFT = 2,
+RIGHT = 3;
 var NOPOP = 0,
-  POP = 1;
+POP = 1;
 var VALUE = 0,
-  CELL = 1,
-  ISPOP = 2;
+CELL = 1,
+ISPOP = 2;
 
 var alertOnce = 0;
 var width = 0;
-var cell = null;
 var score = 0;
 var best = 0;
 
 function load() {
-  cell = document.getElementById("cell");
+  var cell = document.getElementById("cell");
   for (var i = 0; i < 15; i++) {
     var cln = cell.cloneNode(true);
     cell.parentNode.insertBefore(cln, cell);
   }
-  resize();
-  window.addEventListener("resize", resize);
-
-  document.getElementById('fixed').addEventListener('touchmove', function(e) {
-    e.preventDefault();
-  }, false);
 
   document.onkeydown = function(e) {
     move(e.keyCode)
@@ -62,19 +55,49 @@ function load() {
       threshold: 0
     });
   });
+  
+  if (typeof(Storage) !== "undefined") {
+    var data = localStorage.getItem('2048Board')
+    if (data) {
+      var dataList = JSON.parse(localStorage.getItem('2048Board'))
+      for (i = 0; i < dataList.length; i++) {
+        add(dataList[i][0], dataList[i][1], dataList[i][2]);
+      }
+      score = parseInt(localStorage.getItem('2048BoardCurrent'))
+      best = parseInt(localStorage.getItem('2048BoardBest'))
+      updateScore()
+    }
+    else {
+      var c = getFree();
+      add(c[0], c[1], 2);
+    }
+  }
 
-  var c = getFree();
-  add(c[0], c[1], 2);
+  document.getElementById('fixed').addEventListener('touchmove', function(e) {
+    e.preventDefault();
+  }, false);
 
-  $("body").tooltip({
-    selector: '[data-toggle=tooltip]'
-  });
+  resize();
+  window.addEventListener("resize", resize);
+}
+
+function storeData() {
+  var dataList = [];
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j < 4; j++) {
+      if (board[i][j] != -1) {
+        dataList.push([i, j, board[i][j][0]]);
+      }
+    }
+  }
+  localStorage.setItem('2048Board', JSON.stringify(dataList));
 }
 
 function add(row, col, value) {
+  var cell = document.getElementById("cell");
   var cln = cell.cloneNode(true);
-  var clnX = width / 4 * row + 7.5 + 'px';
-  var clnY = width / 4 * col + 'px';
+  var clnX = width / 4 * row + 4 + $(".controller").position().left + 'px';
+  var clnY = width / 4 * col + $(".controller").position().top + 'px';
   $(cln).css({
     'left': clnX,
     'top': clnY,
@@ -99,10 +122,8 @@ function setColor() {
       for (var j = 0; j < color.length; j++) {
         if (value == color[j][0]) {
           cell.style.backgroundColor = color[j][1];
-          if (value > 4) {
-            cell.style.color = "white";
-            cell.style.borderColor = "#555555";
-          }
+          cell.style.color = "white";
+          // cell.style.borderColor = "#776e65";
           break;
         }
       }
@@ -125,12 +146,13 @@ function move(direction) {
     $('.square').finish();
     animate();
     updateScore();
+    storeData();
   }
 }
 
 function moveDirect(direction) {
   var x = 0,
-    y = 0;
+  y = 0;
   var r1, r2, c1, c2;
   var changeOnce = 0;
 
@@ -219,21 +241,23 @@ function animate() {
       var value = board[row][col][VALUE];
       var pop = board[row][col][ISPOP];
 
-      var cellX = (width / 4 * col) + 'px';
-      var cellY = (width / 4 * row) + 7.5 + 'px';
+      var cellX = (width / 4 * col) + $(".controller").position().top + 'px';
+      var cellY = (width / 4 * row) + 4 + $(".controller").position().left + 'px';
 
-      $(cell).velocity({
-        top: cellX,
-        left: cellY
-      }, 100, (function(cell, value, pop) {
-        cell.innerHTML = value;
-        if (pop == 1) {
-          $(cell).css('transform', 'scale(1.1)');
-          setTimeout(function() {
-            $(cell).css('transform', 'scale(1)')
-          }, 250);
-        }
-      })(cell, value, pop));
+      if ($(cell).css("top") != cellX || $(cell).css("left") != cellY) {
+        $(cell).animate({
+          top: cellX,
+          left: cellY
+        }, 100, (function(cell, value, pop) {
+          cell.innerHTML = value;
+          if (pop == 1) {
+            $(cell).css('transform', 'scale(1.1)');
+            setTimeout(function() {
+              $(cell).css('transform', 'scale(1)')
+            }, 250);
+          }
+        })(cell, value, pop));
+      }
 
       board[row][col][ISPOP] = 0;
     }
@@ -242,10 +266,10 @@ function animate() {
 
 function resize() {
   width = $(".controller").outerWidth(true);
-  var cellWidth = ((width / 4) - 15) + 'px';
+  var cellWidth = ((width / 4) - 8) + 'px';
 
   $(".controller").css({
-    "height": width + 'px'
+    "height": width
   });
   $(".square").css({
     "width": cellWidth,
@@ -257,8 +281,8 @@ function resize() {
   for (var i = 0; i < 4; i++) {
     for (var j = 0; j < 4; j++) {
       var cell = list[i * 4 + j];
-      var cellX = (width / 4 * i) + 7.5 + 'px';
-      var cellY = (width / 4 * j) + 'px';
+      var cellX = (width / 4 * i) + 4 + $(".controller").position().left + 'px';
+      var cellY = (width / 4 * j) + $(".controller").position().top + 'px';
       $(cell).css({
         'left': cellX,
         'top': cellY
@@ -290,14 +314,13 @@ function newGame() {
   add(cell[0], cell[1], 2);
   score = 0;
   updateScore();
+  storeData()
 }
 
 function updateScore() {
-  document.getElementById("score").innerHTML = "score: " + score;
-  document.getElementById("best").innerHTML = "best: " + best;
+  document.getElementById("HighScore").innerHTML = best;
+  document.getElementById("CurrentScore").innerHTML = score;
 
-  $('#score').css('transform', 'scale(1.1)');
-  setTimeout(function() {
-    $('#score').css('transform', 'scale(1)')
-  }, 250);
+  localStorage.setItem('2048BoardBest', best);
+  localStorage.setItem('2048BoardCurrent', score);
 }

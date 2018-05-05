@@ -1,10 +1,19 @@
-/*******************/
-/**  SUDOKU WEB   **/
-/*******************/
+var board = [
+[-1, -1, -1, -1, -1, -1, -1, -1, -1],
+[-1, -1, -1, -1, -1, -1, -1, -1, -1],
+[-1, -1, -1, -1, -1, -1, -1, -1, -1],
+[-1, -1, -1, -1, -1, -1, -1, -1, -1],
+[-1, -1, -1, -1, -1, -1, -1, -1, -1],
+[-1, -1, -1, -1, -1, -1, -1, -1, -1],
+[-1, -1, -1, -1, -1, -1, -1, -1, -1],
+[-1, -1, -1, -1, -1, -1, -1, -1, -1],
+[-1, -1, -1, -1, -1, -1, -1, -1, -1]];
 
-var clnList = [];
-var clnCell = null;
-var clnColor = "";
+var cell = null;
+var selectCell = null;
+var colorBlock = "#3c4859";
+var colorSet = "#8AA1B1";
+var colorFocus = "#b9c7d0";
 
 String.prototype.replaceAt = function(index, character) {
   return this.substr(0, index) + character + this.substr(index + character.length);
@@ -12,160 +21,65 @@ String.prototype.replaceAt = function(index, character) {
 
 function load() {
   var cell = document.getElementById("cell");
-  var parentCell = cell.parentNode;
-  var firstChild = parentCell.firstChild;
-  var lastChild = parentCell.lastChild;
-
-  cell.onclick = cellClick;
-  parentCell.removeChild(firstChild);
-  parentCell.removeChild(lastChild);
-
   for (var i = 0; i < 80; i++) {
     var cln = cell.cloneNode(true);
-
-    cln.onclick = cellClick;
-    cln.style.backgroundColor = getColor(i + 1);
-    parentCell.appendChild(cln);
+    cell.parentNode.insertBefore(cln, cell);
   }
 
-  medBtn();
+  makeConstraints();
+  findNeighbors();
 
-  $('.item-modal').click(function(e) {
-    e.stopPropagation();
-  });
-}
-
-function getColor(i, type) {
-  if ((i >= 3 && i < 6) || (i >= 12 && i < 15) ||
-    (i >= 21 && i < 24) || (i >= 27 && i < 30) ||
-    (i >= 33 && i < 39) || (i >= 42 && i < 48) ||
-    (i >= 51 && i < 54) || (i >= 57 && i < 60) ||
-    (i >= 66 && i < 69) || (i >= 75 && i < 78)) {
-    if (type) {
-      return "#535353";
-    }
-    return "#7a7a7a";
-  } else {
-    if (type) {
-      return "#343d47";
-    }
-    return "#3f4956";
-  }
-}
-
-function cellClick() {
-  var cell = this;
-  var parentCell = cell.parentNode;
-  var sibling = parentCell.childNodes;
-  var length = clnList.length;
-
-  if (clnCell !== null) {
-    replaceCln(sibling);
-    clnCell.style.backgroundColor = clnColor;
-    clnList = [];
-  }
-  if (cell === clnCell) {
-    clnCell = null;
-    return;
-  }
-
-  clnColor = cell.style.backgroundColor;
-  cell.style.backgroundColor = "#3a87ad";
-  clnCell = cell;
-
-  var cellIndex = Math.ceil((Array.prototype.indexOf.call(sibling, cell) + 1) / 9) * 9;
-  if (cellIndex == 81) {
-    cellIndex = 63;
-  }
-  for (i = 0; i < 9; i++) {
-    var index = cellIndex + i;
-    var cln = sibling[index];
-    var color = cln.style.backgroundColor;
-    var number = cln.innerHTML;
-
-    clnList.push([index, color, number]);
-    cln.style.backgroundColor = "#3a87ad";
-    setCellValue(cln, i + 1);
-    cln.onclick = function(cln, cell, sibling, length) {
-      return function() {
-        if (getCellValue(cln) == getCellValue(cell)) {
-          setCellValue(cell, "");
-        } else {
-          cell.innerHTML = cln.innerHTML;
+  if (typeof(Storage) !== "undefined") {
+    var boardData = localStorage.getItem('sudokuBoard')
+    var userData = localStorage.getItem('sudokuBoardUser')
+    if (boardData && userData) {
+      setBoard(boardData);
+      var list = document.getElementsByClassName("square");
+      for (i = 0; i < list.length; i++) {
+        if (userData[i] != 0) {
+          list[i].innerHTML = userData[i];
         }
-        if (clnList.length === 0) {
-          return;
-        }
-        replaceCln(sibling);
-        clnList = [];
-        if (clnCell !== null) {
-          clnCell.style.backgroundColor = clnColor;
-          clnCell = null;
-        }
-      };
-    }(cln, cell, sibling);
+      }
+    }
+    else {
+      difficulty(.4);
+    }
+  }
+
+  setColor();
+  resize();
+  window.addEventListener("resize", resize);
+}
+
+function solution(warning) {
+  var puzzle = solve(getBoard());
+  if (puzzle.length == 81) {
+    if (warning == 0) {
+      setBoard(puzzle);
+    }
+    else {
+      $("#warningBtn").attr("class", "btn btn-success w-100");
+    }
+  }
+  else {
+    $("#warningBtn").attr("class", "btn btn-warning w-100");
   }
 }
 
-function getCellValue(cell) {
-  return cell.childNodes[1].childNodes[1].childNodes[1].innerHTML;
-}
-
-function setCellValue(cell, value) {
-  cell.childNodes[1].childNodes[1].childNodes[1].innerHTML = value;
-}
-
-function replaceCln(sibling) {
-  for (var i = 0; i < 9; i++) {
-    var index = clnList[i][0];
-    var sib = sibling[index];
-    sib.style.backgroundColor = clnList[i][1];
-    sib.innerHTML = clnList[i][2];
-    sib.onclick = "";
-    if (clnList[i][1] != "rgb(52, 61, 71)" && clnList[i][1] != "rgb(83, 83, 83)") {
-      sib.onclick = cellClick;
+function difficulty(num) {
+  setBoard(0);
+  var puzzle = getRandom();
+  for (var i = 0; i < 81; i++) {
+    if (Math.random() > num) {
+      puzzle = puzzle.replaceAt(i, "0");
     }
   }
+  setBoard(puzzle);
+  setColor();
+  storeData();
 }
 
-function setPuzzle(puzzle, type) {
-  clnList = [];
-  clnCell = null;
-  clnColor = "";
-  var list = document.getElementsByClassName("numbers");
-  for (var i = 0; i < puzzle.length; i++) {
-    if (type) {
-      list[i].innerHTML = puzzle.charAt(i);
-      continue;
-    }
-    if (puzzle.charAt(i) != "0") {
-      list[i].innerHTML = puzzle.charAt(i);
-      list[i].parentNode.parentNode.parentNode.onclick = "";
-      list[i].parentNode.parentNode.parentNode.style.backgroundColor = getColor(i, 1);
-      list[i].parentNode.parentNode.parentNode.className = "square";
-    } else {
-      list[i].innerHTML = "";
-      list[i].parentNode.parentNode.parentNode.onclick = cellClick;
-      list[i].parentNode.parentNode.parentNode.style.backgroundColor = getColor(i, 0);
-      list[i].parentNode.parentNode.parentNode.className = "square shine";
-    }
-  }
-}
-
-function getPuzzle() {
-  var puzzle = "";
-  var list = document.getElementsByClassName("numbers");
-  for (var i = 0; i < list.length; i++) {
-    if (list[i].innerHTML != "") {
-      puzzle += list[i].innerHTML;
-    } else {
-      puzzle += "0";
-    }
-  }
-  return puzzle;
-}
-
-function getRandomPuzzle() {
+function getRandom() {
   var puzzle = "";
   var list = [];
   for (var i = 0; i < 81; i++) {
@@ -179,72 +93,163 @@ function getRandomPuzzle() {
       puzzle += 0;
     }
   }
-  console.log(puzzle);
   return solve(puzzle);
 }
 
-function easyBtn() {
-  setPuzzle("");
-  var puzzle = getRandomPuzzle();
-  for (var i = 0; i < 81; i++) {
-    if (Math.random() > .5) {
-      puzzle = puzzle.replaceAt(i, "0");
+function setBoard(puzzle) {
+  var list = document.getElementsByClassName("square");
+  for (var i = 0; i < puzzle.length; i++) {
+    if (puzzle != 0 && puzzle.charAt(i) != "0") {
+      list[i].innerHTML = puzzle.charAt(i);
+      list[i].onclick = null;
+    }
+    else {
+      list[i].innerHTML = "";
+      list[i].onclick = cellClick;
     }
   }
-  setPuzzle(puzzle)
+  selectCell = null;
 }
 
-function medBtn() {
-  setPuzzle("");
-  var puzzle = getRandomPuzzle();
-  for (var i = 0; i < 81; i++) {
-    if (Math.random() > .4) {
-      puzzle = puzzle.replaceAt(i, "0");
+function setColor() {
+  var list = document.getElementsByClassName("square");
+  for (i = 0; i < list.length; i++) {
+    if (getColor(i) == 0) {
+      list[i].style.backgroundColor = "white";
+      list[i].style.color = colorBlock;
+      list[i].style.borderColor= colorBlock;
+    }
+    else {
+      list[i].style.backgroundColor = colorBlock;
+      list[i].style.color = "white";
+    }
+    if (list[i].innerHTML != "") {
+      if (list[i].onclick != null) {
+        list[i].style.backgroundColor = colorSet;
+        list[i].style.borderColor = colorSet;
+        list[i].style.color = "white";
+      }
     }
   }
-  setPuzzle(puzzle)
 }
 
-function hardBtn() {
-  setPuzzle("");
-  var puzzle = getRandomPuzzle();
-  for (var i = 0; i < 81; i++) {
-    if (Math.random() > .3) {
-      puzzle = puzzle.replaceAt(i, "0");
+function storeData() {
+  var boardPuzzle = "";
+  var userPuzzle = "";
+  var list = document.getElementsByClassName("square");
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].innerHTML != "") {
+      if (list[i].style.backgroundColor == "rgb(138, 161, 177)") {
+        userPuzzle += list[i].innerHTML;
+        boardPuzzle += "0";
+      }
+      else {
+        userPuzzle += "0";
+        boardPuzzle += list[i].innerHTML;
+      }
+    } else {
+      boardPuzzle += "0";
+      userPuzzle += "0";
     }
   }
-  setPuzzle(puzzle)
+  localStorage.setItem('sudokuBoard', boardPuzzle);
+  localStorage.setItem('sudokuBoardUser', userPuzzle);
 }
 
-function solveBtn() {
-  var puzzle = solve(getPuzzle());
-  if (puzzle.length == 81) {
-    setPuzzle(puzzle, 1);
+function getBoard() {
+  var puzzle = "";
+  var list = document.getElementsByClassName("square");
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].innerHTML != "") {
+      puzzle += list[i].innerHTML;
+    } else {
+      puzzle += "0";
+    }
+  }
+  return puzzle;
+}
+
+function getSelectCellIndex() {
+  var child = selectCell;
+  var i = 0;
+  while( (child = child.previousSibling) != null ) {
+    i++;
+  }
+  return i--;
+}
+
+function cellValChg(num) {
+  if (selectCell != null) {
+    if (num == 0) {
+      selectCell.innerHTML = "";
+    }
+    else {
+      selectCell.innerHTML = num;
+    }
+    selectCell = null;
+  }
+  setColor();
+  storeData();
+}
+
+function cellClick() {
+  if (selectCell != null) {
+    if (selectCell == this) {
+      selectCell = null;
+      return;
+    }
+    else {
+      setColor();
+    }
+  }
+  selectCell = this;
+  selectCell.style.backgroundColor = colorFocus; 
+  selectCell.style.borderColor = colorFocus;
+}
+
+function getColor(i, type) {
+  if ((i >= 3 && i < 6) || (i >= 12 && i < 15) ||
+    (i >= 21 && i < 24) || (i >= 27 && i < 30) ||
+    (i >= 33 && i < 39) || (i >= 42 && i < 48) ||
+    (i >= 51 && i < 54) || (i >= 57 && i < 60) ||
+    (i >= 66 && i < 69) || (i >= 75 && i < 78)) {
+    return 0;
   } else {
-    document.getElementById("status").innerHTML = "Uh oh, there's a misplaced cell!"
-    $('.modal').modal('toggle');
+    return 1;
   }
 }
 
-function blankBtn() {
-  setPuzzle("000000000000000000000000000000000000000000000000000000000000000000000000000000000");
-}
-
-function checkBtn() {
-  var puzzle = solve(getPuzzle());
-  if (puzzle.length == 81) {
-    $('#success').show(250);
-    $('#failure').hide(250);
-
-  } else {
-    $('#failure').show(250);
-    $('#success').hide(250);
+function resize() {
+  width = $(".controller").outerWidth(true);
+  var cellWidth = ((width / 9) - 8) + 'px';
+  $(".controller").css({
+    "height": width + 'px'
+  });
+  $(".square").css({
+    "width": cellWidth,
+    "height": cellWidth,
+    "line-height": cellWidth
+  });
+  var list = document.getElementsByClassName("square");
+  for (var i = 0; i < 9; i++) {
+    for (var j = 0; j < 9; j++) {
+      var cell = list[i * 9 + j];
+      var cellX = (width / 9 * i) + 4 + $(".controller").position().left + 'px';
+      var cellY = (width / 9 * j) + $(".controller").position().top + 'px';
+      $(cell).css({
+        'left': cellX,
+        'top': cellY
+      });
+      if (board[i][j] != -1) {
+        cell = board[i][j][CELL];
+        $(cell).css({
+          'left': cellX,
+          'top': cellY
+        });
+      }
+    }
   }
 }
-
-/*******************/
-/**  SUDOKU WEB   **/
-/*******************/
 
 /*******************/
 /** SUDOKU SOLVER **/
@@ -388,9 +393,6 @@ function backtracking() {
   }
 }
 
-makeConstraints();
-findNeighbors();
-
 function solve(puzzle) {
   if (puzzle.length != 81) {
     console.log("invalid board length");
@@ -433,7 +435,3 @@ function print() {
   }
   console.log(string);
 }
-
-/*******************/
-/** SUDOKU SOLVER **/
-/*******************/

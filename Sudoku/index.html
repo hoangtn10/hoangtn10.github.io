@@ -1,67 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Sudoku</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.4.0/velocity.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.js"></script>
-
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/lumen/bootstrap.min.css" />
-
-        <script src="index.js"></script>
-        <link rel="stylesheet" href="index.css">
-    </head>
-    <body onload="load()">
-        <div class="container center slidingVertical">
-            <div class="col-sm-3 center"></div>
-            <div class="col-sm-6 center">
-                <h1>Sudoku</h1>
-                <a onclick="easyBtn()" class="btn btn-default btn-xs left">easy</a>
-                <a onclick="medBtn()" class="btn btn-default btn-xs">medium</a>
-                <a onclick="hardBtn()" class="btn btn-default btn-xs right">hard</a>
-            </div>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hoang Nguyen</title>
+    <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+    <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/90ca212ee1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.js"></script>
+    <script src="index.js"></script>
+    <link rel="icon" href="../icon.png" type="image/gif">
+    <style>
+    .center {
+    text-align: center;
+    margin: 0 auto;
+    }
+    .square {
+    position: absolute;
+    background-color: white;
+    color: #776e65;
+    font-size: 1.5em;
+    border: 1px solid;
+    border-radius: .2em;
+    font-weight: bold;
+    }
+    .largeTxt {
+    font-size: 2em;
+    font-weight: bold;
+    }
+    </style>
+  </head>
+  <body onload="load()">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="../index.html">HOANG NGUYEN</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../2048/index.html">2048</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="../Sudoku/index.html">Sudoku</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <br />
+    <div id="sudoku">
+      <div class="card border-dark mb-3 center" style="max-width: 40rem;">
+        <div class="card-header">Sudoku</div>
+        <br />
+        <div class="container">
+          <div class="btn-group d-flex">
+            <button onclick="cellValChg(0)" class="btn btn-secondary w-100"></button>
+            <button onclick="cellValChg(1)" class="btn btn-secondary w-100">1</button>
+            <button onclick="cellValChg(2)" class="btn btn-secondary w-100">2</button>
+            <button onclick="cellValChg(3)" class="btn btn-secondary w-100">3</button>
+            <button onclick="cellValChg(4)" class="btn btn-secondary w-100">4</button>
+            <button onclick="cellValChg(5)" class="btn btn-secondary w-100">5</button>
+            <button onclick="cellValChg(6)" class="btn btn-secondary w-100">6</button>
+            <button onclick="cellValChg(7)" class="btn btn-secondary w-100">7</button>
+            <button onclick="cellValChg(8)" class="btn btn-secondary w-100">8</button>
+            <button onclick="cellValChg(9)" class="btn btn-secondary w-100">9</button>
+          </div>
         </div>
-        <div id="fixed" class="container center slidingVertical delay1">
-            <div class="col-sm-3 center"></div>
-            <div class="col-sm-6 center controller">
-                <div class="square" id="cell">
-                    <div class="content">
-                        <div class="table">
-                            <div class="table-cell numbers"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="card-body text-secondary">
+          <div class="controller">
+            <div class="square" id="cell"></div>
+          </div>
         </div>
         <div class="container">
-            <div class="col-sm-3 center"></div>
-            <div class="col-sm-6 center slidingVertical delay2">
-                <a onclick="checkBtn()" class="btn btn-default btn-xs left">check</a>
-                <a onclick="blankBtn()" class="btn btn-default btn-xs">blank</a>
-                <a onclick="solveBtn()" class="btn btn-default btn-xs right">solve</a>
-            </div>
-        </div>
-        <br>
-        <div class="container" id="failure" style="display: none">
-          <div class="col-sm-3"></div>
-          <div class="col-sm-6 center">
-            <div class="alert alert-dismissible alert-warning" id="status">
-              There's a misplaced cell!
-            </div>
+          <div class="btn-group d-flex">
+            <button onclick="difficulty(.5)" class="btn btn-secondary w-100">E</button>
+            <button onclick="difficulty(.4);" class="btn btn-secondary w-100">M</button>
+            <button onclick="difficulty(.3);" class="btn btn-secondary w-100">H</button>
+            <button onclick="difficulty(0)" class="btn btn-secondary w-100">B</button>
+            <button onclick="solution(0)" class="btn btn-secondary w-100">S</button>
+            <button onclick="solution(1)" class="btn btn-success w-100" id="warningBtn">C</button>
           </div>
         </div>
-        <div class="container" id="success" style="display: none">
-          <div class="col-sm-3"></div>
-          <div class="col-sm-6 center">
-            <div class="alert alert-dismissible alert-success" id="status">
-              Everything looks good!
-            </div>
+        <br />
+      </div>
+      <div class="container center" style="max-width: 40rem;">
+        <div class="row" >
+          <div class="col">
+            <span class="largeTxt">E</span>asy
+          </div>
+          <div class="col">
+            <span class="largeTxt">M</span>edium
+          </div>
+          <div class="col">
+            <span class="largeTxt">H</span>ard
+          </div>
+          <div class="col">
+            <span class="largeTxt">B</span>lanked
+          </div>
+          <div class="col">
+            <span class="largeTxt">S</span>olved
+          </div>
+          <div class="col">
+            <span class="largeTxt">C</span>heck
           </div>
         </div>
-    </body>
+      </div>
+    </div>
+  </body>
 </html>
