@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Hoang Nguyen</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/lumen/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css" />
     <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -12,37 +12,60 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <link rel="icon" href="icon.png" type="image/gif">
     <style>
+    #name {
+    color: #E74C3C;
+    }
+    #logo {
+    color: white;
+    font-size: 4em;
+    }
     .center{
     float: none;
     margin: 0 auto;
+    text-align: center;
     }
-    #git {
-    font-size: 15em !important;
-    color: #262e36 ;
+    @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+    @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+    @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+    .parent {
+    position: relative;
+    top: 0;
+    left: 0;
     }
-    .contact {
-    font-size: 2em;
+    .image1 {
+    position: relative;
+    top: 0;
+    left: 0;
+    -webkit-animation:spin 16s linear infinite;
+    -moz-animation:spin 16s linear infinite;
+    animation:spin 16s linear infinite;
     }
-    .contact-item {
-    margin: 20px !important;
+    .image2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-animation:spin 24s linear infinite;
+    -moz-animation:spin 24s linear infinite;
+    animation:spin 24s linear infinite;
     }
-    .umn {
-    background-color: #404D5B;
-    color: white;
-    border-color: transparent;
+    .image3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-animation:spin 8s linear infinite;
+    -moz-animation:spin 8s linear infinite;
+    animation:spin 8s linear infinite;
     }
-    .fa-linkedin {
-    color: #0073b1;
+    .image4 {
+    position: absolute;
+    top: 0;
+    left: 0;
     }
-    .fa-envelope {
-    color: #db4437;
+    .center-txt {
+    text-align: justify;
     }
-    .fa-file-alt {
-    color: #999;
-    }
-    .fa-linkedin:hover, .fa-envelope:hover, .fa-file-alt:hover {
-    transform: scale(1.5);
-    transition: transform .2s;
+    .footer {
+    font-size: .85em;
     }
     </style>
   </head>
@@ -60,32 +83,61 @@
           <li class="nav-item">
             <a class="nav-link" href="Sudoku/index.html">Sudoku</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Slide/index.html">Slide</a>
+          </li>
         </ul>
       </div>
     </nav>
     <div class="container">
       <div class="row">
         <div class="center">
-          <i id="git" class="fab fa-github-alt"></i>
+          <div class="parent">
+            <img class="image1" src="portal-blue.svg" alt="Portal blue">
+            <img class="image2" src="portal-green.svg" alt="Portal green">
+            <img class="image3" src="portal-yellow.svg" alt="Portal yellow">
+            <img class="image4" src="empire.svg" alt="The Empire">
+          </div>
         </div>
       </div>
-      <div class="row">
-        <ul class="list-group center">
-          <li class="umn list-group-item d-flex justify-content-between align-items-center">
-            University of Minnesota
-          </li>
-          <li class="software list-group-item d-flex justify-content-between align-items-center">
-            Software Engineer
-          </li>
-        </ul>
+    <blockquote class="blockquote text-center"><footer class="blockquote-footer">The Empire did nothing wrong.</footer></blockquote>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="alert alert-dismissible alert-warning">
+          Try and get a score of <a href="2048/index.html" class="alert-link">2048!</a>
+        </div>
       </div>
-      <div class="row">
-        <div class="contact center">
-          <a href="https://www.linkedin.com/in/hoangnguyend"><i class="contact-item fab fa-linkedin"></i></a>
-          <a href="mailto:hoangtn10@gmail.com"><i class="contact-item fas fa-envelope"></i></a>
-          <a href="resume.pdf"><i class="contact-item fas fa-file-alt"></i></a>
+      <div class="col-lg-4">
+        <div class="alert alert-dismissible alert-secondary">
+          Get your <a href="Sudoku/index.html" class="alert-link">Sudoku</a> needs here.
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="alert alert-dismissible alert-success">
+          Want to <a href="slide/index.html" class="alert-link">slide</a> around a bit?
         </div>
       </div>
     </div>
-  </body>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="contact center">
+        <div class="btn-group btn-group-justified">
+          <a href="mailto:hoangtn10@gmail.com" class="btn btn-danger">Mail</a>
+          <a href="resume.pdf" class="btn btn-primary">Resume</a>
+          <a href="https://www.linkedin.com/in/hoangnguyend" class="btn btn-info">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="center footer">
+        Using <a href="https://getbootstrap.com/" class="alert-link">Bootstrap</a> and <a href="https://fontawesome.com/" class="alert-link">FontAwesome</a>.
+      </div>
+    </div>
+    <br>
+  </div>
+</body>
 </html>
