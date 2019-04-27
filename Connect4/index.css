@@ -1,0 +1,33 @@
+.center {
+	text-align: center;
+	margin: 0 auto;
+}
+.square {
+	position: absolute;
+  background-color: #eeeeee;
+  color: #555555;
+  font-weight: bold;
+  font-size: 2em;
+  border-radius: 25px;
+}
+div {
+	transform: scale(1);
+  transition: transform 250ms ease-in-out;
+  -webkit-transition: transform 250ms ease-in-out;
+  -moz-transition: transform 250ms ease-in-out;
+  -o-transition: transform 250ms ease-in-out;
+}
+h1 {
+  font-weight: bold;
+  font-size: 4em;
+  margin-top: 10px;
+}
+.controller {
+  padding: 0;
+}
+#score {
+  float: left;
+}
+#best {
+  float: right;
+} 
