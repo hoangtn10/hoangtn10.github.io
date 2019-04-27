@@ -106,7 +106,7 @@ function cellClick(col) {
     BOARD[row][col] = createFreeCell(col)
 
     PLAYER = PLAYER == PLAYER_1 ? PLAYER_2 : PLAYER_1
-    var minimaxList = minimax(3, PLAYER, BOARD)
+    var minimaxList = minimax(1, PLAYER, BOARD)
     var move = maxIndex(minimaxList)
 
 
