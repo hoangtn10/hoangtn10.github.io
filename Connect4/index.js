@@ -309,7 +309,7 @@ function minimax(depth, player, inputBoard) {
         for (var col = 0; col < NUM_COL; col++) {
             pointList.push(getPoint(col, player, inputBoard))
         }
-        // console.log(inputBoard)
+        console.log(pointList)
         return pointList
     }
 
@@ -503,6 +503,9 @@ function getPoint(col, player, inputBoard) {
         if (checkTwoInMiddle(player, newBoard, [row, curr_col], [row, curr_col + 1], [row, curr_col + 2], [row, curr_col + 3])) {
             point += 500
         }
+        if (checkTwoInBetween(player, newBoard, [row, curr_col], [row, curr_col + 1], [row, curr_col + 2], [row, curr_col + 3])) {
+            point += 500
+        }
         for (var inc = 0; inc < CONNECT_NUM; inc++) {
             var disc = getPlayer(newBoard[row][curr_col + inc])
             if (disc == otherPlayer) {
@@ -524,6 +527,9 @@ function getPoint(col, player, inputBoard) {
         if (checkTwoInMiddle(player, newBoard, [row - dec, col - dec], [row - dec + 1, col - dec + 1], [row - dec + 2, col - dec + 2], [row - dec + 3, col - dec + 3])) {
             point += 500
         }
+        if (checkTwoInBetween(player, newBoard, [row - dec, col - dec], [row - dec + 1, col - dec + 1], [row - dec + 2, col - dec + 2], [row - dec + 3, col - dec + 3])) {
+            point += 500
+        }
         for (var inc = 0; inc < CONNECT_NUM; inc++) {
             var disc = getPlayer(newBoard[row - dec + inc][col - dec + inc])
             if (disc == otherPlayer) {
@@ -541,6 +547,9 @@ function getPoint(col, player, inputBoard) {
         count = 0
         if (row + dec_inc >= NUM_ROW || col - dec_inc < 0 || row + dec_inc - CONNECT_NUM + 1 < NUM_HOVER_ROW || col - dec_inc + CONNECT_NUM - 1 >= NUM_COL) {
             continue
+        }
+        if (checkTwoInBetween(player, newBoard, [row + dec_inc, col - dec_inc], [row + dec_inc - 1, col - dec_inc + 1], [row + dec_inc - 2, col - dec_inc + 2], [row + dec_inc - 3, col - dec_inc + 3])) {
+            point += 500
         }
         if (checkTwoInMiddle(player, newBoard, [row + dec_inc, col - dec_inc], [row + dec_inc - 1, col - dec_inc + 1], [row + dec_inc - 2, col - dec_inc + 2], [row + dec_inc - 3, col - dec_inc + 3])) {
             point += 500
@@ -610,6 +619,9 @@ function getOpponentPoint(col, player, inputBoard) {
         if (checkTwoInMiddle(player, newBoard, [row, curr_col], [row, curr_col + 1], [row, curr_col + 2], [row, curr_col + 3])) {
             point += -50
         }
+        if (checkTwoInBetween(player, newBoard, [row, curr_col], [row, curr_col + 1], [row, curr_col + 2], [row, curr_col + 3])) {
+            point += -50
+        }
         for (var inc = 0; inc < CONNECT_NUM; inc++) {
             var disc = getPlayer(newBoard[row][curr_col + inc])
             if (disc == otherPlayer) {
@@ -631,6 +643,9 @@ function getOpponentPoint(col, player, inputBoard) {
         if (checkTwoInMiddle(player, newBoard, [row - dec, col - dec], [row - dec + 1, col - dec + 1], [row - dec + 2, col - dec + 2], [row - dec + 3, col - dec + 3])) {
             point += -50
         }
+        if (checkTwoInBetween(player, newBoard, [row - dec, col - dec], [row - dec + 1, col - dec + 1], [row - dec + 2, col - dec + 2], [row - dec + 3, col - dec + 3])) {
+            point += -50
+        }
         for (var inc = 0; inc < CONNECT_NUM; inc++) {
             var disc = getPlayer(newBoard[row - dec + inc][col - dec + inc])
             if (disc == otherPlayer) {
@@ -650,6 +665,9 @@ function getOpponentPoint(col, player, inputBoard) {
             continue
         }
         if (checkTwoInMiddle(player, newBoard, [row + dec_inc, col - dec_inc], [row + dec_inc - 1, col - dec_inc + 1], [row + dec_inc - 2, col - dec_inc + 2], [row + dec_inc - 3, col - dec_inc + 3])) {
+            point += -50
+        }
+        if (checkTwoInBetween(player, newBoard, [row + dec_inc, col - dec_inc], [row + dec_inc - 1, col - dec_inc + 1], [row + dec_inc - 2, col - dec_inc + 2], [row + dec_inc - 3, col - dec_inc + 3])) {
             point += -50
         }
         for (var inc = 0; inc < CONNECT_NUM; inc++) {
@@ -675,5 +693,35 @@ function checkTwoInMiddle(player, inputBoard, pos1, pos2, pos3, pos4){
                     if (getFreeRow(pos1[1], inputBoard) == pos1[0])
                         if (getFreeRow(pos4[1], inputBoard) == pos4[0])
                             return true
+    return false
+}
+
+function checkTwoInBetween(player, inputBoard, pos1, pos2, pos3, pos4){
+    if (getPlayer(inputBoard[pos1[0]][pos1[1]]) == player) {
+        if (getPlayer(inputBoard[pos2[0]][pos2[1]]) == 0) {
+            if (getPlayer(inputBoard[pos3[0]][pos3[1]]) == player) {
+                if (getPlayer(inputBoard[pos4[0]][pos4[1]]) == 0) {
+                    if (getFreeRow(pos2[1], inputBoard) == pos2[0]) {
+                        if (getFreeRow(pos4[1], inputBoard) == pos4[0]) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (getPlayer(inputBoard[pos1[0]][pos1[1]]) == 0) {
+        if (getPlayer(inputBoard[pos2[0]][pos2[1]]) == player) {
+            if (getPlayer(inputBoard[pos3[0]][pos3[1]]) == 0) {
+                if (getPlayer(inputBoard[pos4[0]][pos4[1]]) == player) {
+                    if (getFreeRow(pos1[1], inputBoard) == pos1[0]) {
+                        if (getFreeRow(pos3[1], inputBoard) == pos3[0]) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+    }
     return false
 }
