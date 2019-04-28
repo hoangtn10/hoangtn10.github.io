@@ -109,7 +109,6 @@ function cellClick(col) {
     var minimaxList = minimax(1, PLAYER, BOARD)
     var move = maxIndex(minimaxList)
 
-
     if (PLAYER == PLAYER_1) {
         animate(row, col, null, null)
     } else {
@@ -139,6 +138,13 @@ function animate(row, col, callback, callback_col) {
     }, SPEED, function() {
         // Completed animation
         IN_TRANSITION = false
+
+        var otherPlayer = PLAYER == PLAYER_1 ? PLAYER_2 : PLAYER_1
+        if (isWon(otherPlayer, BOARD)) {
+            alert('Player ' + otherPlayer + ' won')
+            newGame()
+            return
+        }
 
         $(':hover').trigger('mouseover')
 
@@ -213,6 +219,8 @@ function newGame() {
             BOARD[row][col] = NO_PLAYER
         }
     }
+    PLAYER = PLAYER_1
+    $(':hover').trigger('mouseover')
 }
 
 /*******************/
