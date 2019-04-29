@@ -501,10 +501,10 @@ function getPoint(col, player, inputBoard) {
             continue
         }
         if (checkTwoInMiddle(player, newBoard, [row, curr_col], [row, curr_col + 1], [row, curr_col + 2], [row, curr_col + 3])) {
-            point += 500
+            point += 50
         }
         if (checkTwoInBetween(player, newBoard, [row, curr_col], [row, curr_col + 1], [row, curr_col + 2], [row, curr_col + 3])) {
-            point += 500
+            point += 50
         }
         for (var inc = 0; inc < CONNECT_NUM; inc++) {
             var disc = getPlayer(newBoard[row][curr_col + inc])
@@ -525,10 +525,10 @@ function getPoint(col, player, inputBoard) {
             continue
         }
         if (checkTwoInMiddle(player, newBoard, [row - dec, col - dec], [row - dec + 1, col - dec + 1], [row - dec + 2, col - dec + 2], [row - dec + 3, col - dec + 3])) {
-            point += 500
+            point += 50
         }
         if (checkTwoInBetween(player, newBoard, [row - dec, col - dec], [row - dec + 1, col - dec + 1], [row - dec + 2, col - dec + 2], [row - dec + 3, col - dec + 3])) {
-            point += 500
+            point += 50
         }
         for (var inc = 0; inc < CONNECT_NUM; inc++) {
             var disc = getPlayer(newBoard[row - dec + inc][col - dec + inc])
@@ -549,10 +549,10 @@ function getPoint(col, player, inputBoard) {
             continue
         }
         if (checkTwoInBetween(player, newBoard, [row + dec_inc, col - dec_inc], [row + dec_inc - 1, col - dec_inc + 1], [row + dec_inc - 2, col - dec_inc + 2], [row + dec_inc - 3, col - dec_inc + 3])) {
-            point += 500
+            point += 50
         }
         if (checkTwoInMiddle(player, newBoard, [row + dec_inc, col - dec_inc], [row + dec_inc - 1, col - dec_inc + 1], [row + dec_inc - 2, col - dec_inc + 2], [row + dec_inc - 3, col - dec_inc + 3])) {
-            point += 500
+            point += 50
         }
         for (var inc = 0; inc < CONNECT_NUM; inc++) {
             var disc = getPlayer(newBoard[row + dec_inc - inc][col - dec_inc + inc])
@@ -617,10 +617,10 @@ function getOpponentPoint(col, player, inputBoard) {
             continue
         }
         if (checkTwoInMiddle(player, newBoard, [row, curr_col], [row, curr_col + 1], [row, curr_col + 2], [row, curr_col + 3])) {
-            point += -50
+            point += -30
         }
         if (checkTwoInBetween(player, newBoard, [row, curr_col], [row, curr_col + 1], [row, curr_col + 2], [row, curr_col + 3])) {
-            point += -50
+            point += -30
         }
         for (var inc = 0; inc < CONNECT_NUM; inc++) {
             var disc = getPlayer(newBoard[row][curr_col + inc])
@@ -641,10 +641,10 @@ function getOpponentPoint(col, player, inputBoard) {
             continue
         }
         if (checkTwoInMiddle(player, newBoard, [row - dec, col - dec], [row - dec + 1, col - dec + 1], [row - dec + 2, col - dec + 2], [row - dec + 3, col - dec + 3])) {
-            point += -50
+            point += -30
         }
         if (checkTwoInBetween(player, newBoard, [row - dec, col - dec], [row - dec + 1, col - dec + 1], [row - dec + 2, col - dec + 2], [row - dec + 3, col - dec + 3])) {
-            point += -50
+            point += -30
         }
         for (var inc = 0; inc < CONNECT_NUM; inc++) {
             var disc = getPlayer(newBoard[row - dec + inc][col - dec + inc])
@@ -665,10 +665,10 @@ function getOpponentPoint(col, player, inputBoard) {
             continue
         }
         if (checkTwoInMiddle(player, newBoard, [row + dec_inc, col - dec_inc], [row + dec_inc - 1, col - dec_inc + 1], [row + dec_inc - 2, col - dec_inc + 2], [row + dec_inc - 3, col - dec_inc + 3])) {
-            point += -50
+            point += -30
         }
         if (checkTwoInBetween(player, newBoard, [row + dec_inc, col - dec_inc], [row + dec_inc - 1, col - dec_inc + 1], [row + dec_inc - 2, col - dec_inc + 2], [row + dec_inc - 3, col - dec_inc + 3])) {
-            point += -50
+            point += -30
         }
         for (var inc = 0; inc < CONNECT_NUM; inc++) {
             var disc = getPlayer(newBoard[row + dec_inc - inc][col - dec_inc + inc])
